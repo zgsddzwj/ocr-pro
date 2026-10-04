@@ -192,10 +192,37 @@
   color: #1f6f43;
 }
 
-.more-title {
-  margin: 26rpx 0 14rpx;
+.more-group {
+  margin-top: 8rpx;
+  padding-top: 26rpx;
+  border-top: 2rpx solid #eef2ef;
+}
+
+.group-title {
+  margin-bottom: 18rpx;
   font-size: 24rpx;
   color: #9aa69e;
+}
+
+.field-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx 20rpx;
+}
+
+.field {
+  width: calc(50% - 10rpx);
+  min-width: 0;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 90rpx;
+  padding: 18rpx 22rpx;
+  background: #f4f6f5;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
 }
 
 .save-bar {

@@ -86,46 +86,53 @@
     </view>
 
     <block wx:if="{{showMore}}">
-      <view class="more-title">扣量与化验</view>
-      <view class="grid3 gap-top">
-        <view><view class="label">卸车费（元）</view>
-          <input class="input" type="digit" value="{{form.unloadFee}}" data-k="unloadFee" bindinput="setField" /></view>
-        <view><view class="label">水分%</view>
-          <input class="input" type="digit" value="{{form.moisture}}" data-k="moisture" bindinput="setField" /></view>
-        <view><view class="label">杂质%</view>
-          <input class="input" type="digit" value="{{form.impurity}}" data-k="impurity" bindinput="setField" /></view>
-        <view><view class="label">生霉粒%</view>
-          <input class="input" type="digit" value="{{form.moldy}}" data-k="moldy" bindinput="setField" /></view>
-        <view><view class="label">场地扣量</view>
-          <input class="input" type="digit" value="{{form.deductSite}}" data-k="deductSite" bindinput="setField" /></view>
-        <view><view class="label">水分扣量</view>
-          <input class="input" type="digit" value="{{form.deductMoisture}}" data-k="deductMoisture" bindinput="setField" /></view>
-        <view><view class="label">杂质扣量</view>
-          <input class="input" type="digit" value="{{form.deductImpurity}}" data-k="deductImpurity" bindinput="setField" /></view>
-        <view><view class="label">生霉扣量</view>
-          <input class="input" type="digit" value="{{form.deductMoldy}}" data-k="deductMoldy" bindinput="setField" /></view>
+      <view class="more-group">
+        <view class="group-title">扣量与化验</view>
+        <view class="field-grid">
+          <view class="field"><view class="label">卸车费（元）</view>
+            <input class="input" type="digit" value="{{form.unloadFee}}" data-k="unloadFee" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+          <view class="field"><view class="label">水分%</view>
+            <input class="input" type="digit" value="{{form.moisture}}" data-k="moisture" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+          <view class="field"><view class="label">杂质%</view>
+            <input class="input" type="digit" value="{{form.impurity}}" data-k="impurity" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+          <view class="field"><view class="label">生霉粒%</view>
+            <input class="input" type="digit" value="{{form.moldy}}" data-k="moldy" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+          <view class="field"><view class="label">场地扣量</view>
+            <input class="input" type="digit" value="{{form.deductSite}}" data-k="deductSite" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+          <view class="field"><view class="label">水分扣量</view>
+            <input class="input" type="digit" value="{{form.deductMoisture}}" data-k="deductMoisture" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+          <view class="field"><view class="label">杂质扣量</view>
+            <input class="input" type="digit" value="{{form.deductImpurity}}" data-k="deductImpurity" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+          <view class="field"><view class="label">生霉扣量</view>
+            <input class="input" type="digit" value="{{form.deductMoldy}}" data-k="deductMoldy" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
+        </view>
       </view>
 
-      <view class="more-title">单据信息</view>
-      <view class="grid2 gap-top">
-        <view><view class="label">等级</view>
-          <input class="input" value="{{form.grade}}" data-k="grade" bindinput="setField" /></view>
-        <view><view class="label">车号</view>
-          <input class="input" value="{{form.vehicleNo}}" data-k="vehicleNo" bindinput="setField" /></view>
-        <view><view class="label">卸车货位</view>
-          <input class="input" value="{{form.unloadSpot}}" data-k="unloadSpot" bindinput="setField" /></view>
-        <view><view class="label">入库仓号</view>
-          <input class="input" value="{{form.warehouse}}" data-k="warehouse" bindinput="setField" /></view>
-        <view><view class="label">联系电话</view>
-          <input class="input" type="number" value="{{form.phone}}" data-k="phone" bindinput="setField" /></view>
-        <view><view class="label">银行卡号</view>
-          <input class="input" type="number" value="{{form.bankCard}}" data-k="bankCard" bindinput="setField" /></view>
-        <view><view class="label">开户行</view>
-          <input class="input" value="{{form.bankName}}" data-k="bankName" bindinput="setField" /></view>
+      <view class="more-group">
+        <view class="group-title">单据信息</view>
+        <view class="field-grid">
+          <view class="field"><view class="label">等级</view>
+            <input class="input" value="{{form.grade}}" data-k="grade" bindinput="setField" /></view>
+          <view class="field"><view class="label">车号</view>
+            <input class="input" value="{{form.vehicleNo}}" data-k="vehicleNo" bindinput="setField" /></view>
+          <view class="field"><view class="label">卸车货位</view>
+            <input class="input" value="{{form.unloadSpot}}" data-k="unloadSpot" bindinput="setField" /></view>
+          <view class="field"><view class="label">入库仓号</view>
+            <input class="input" value="{{form.warehouse}}" data-k="warehouse" bindinput="setField" /></view>
+          <view class="field"><view class="label">联系电话</view>
+            <input class="input" type="number" value="{{form.phone}}" data-k="phone" bindinput="setField" /></view>
+          <view class="field"><view class="label">银行卡号</view>
+            <input class="input" type="number" value="{{form.bankCard}}" data-k="bankCard" bindinput="setField" /></view>
+          <view class="field"><view class="label">开户行</view>
+            <input class="input" value="{{form.bankName}}" data-k="bankName" bindinput="setField" /></view>
+        </view>
       </view>
 
-      <view class="more-title">备注</view>
-      <input class="input" value="{{form.note}}" data-k="note" bindinput="setField" placeholder="备注" placeholder-class="ph" />
+      <view class="more-group">
+        <view class="group-title">备注</view>
+        <textarea class="textarea" value="{{form.note}}" data-k="note" bindinput="setField"
+                  auto-height maxlength="100" placeholder="选填" placeholder-class="ph" />
+      </view>
     </block>
   </view>
 
