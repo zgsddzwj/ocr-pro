@@ -62,12 +62,6 @@
     <view class="tip">识别记录仅保存在本机，可在历史中删除</view>
   </view>
 
-  <view class="entry" bindtap="goRecords">
-    <image class="icon" src="{{icons.idcard}}" />
-    <text class="entry-text">收购工作台</text>
-    <view class="entry-arrow">›</view>
-  </view>
-
   <view class="entry" bindtap="goHistory">
     <image class="icon" src="{{icons.history}}" />
     <text class="entry-text">历史记录</text>

@@ -355,3 +355,50 @@
   from { transform: translateY(30%); opacity: 0.6; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+/* ---------- 双主入口 ---------- */
+.dual {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 58rpx;
+}
+
+.dual-card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 30rpx 26rpx;
+  box-shadow: 0 4rpx 16rpx rgba(23, 40, 31, 0.05);
+}
+
+.dual-icon {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 18rpx;
+  background: #e8f3ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18rpx;
+}
+
+.dual-icon.dark {
+  background: #1f6f43;
+}
+
+.dual-img {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.dual-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #14361f;
+}
+
+.dual-sub {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #9aa69e;
+}
