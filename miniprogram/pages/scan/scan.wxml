@@ -2,8 +2,8 @@
   <view class="hero">
     <view class="hero-top">
       <view class="hero-titles">
-        <view class="hero-title">身份证识别填单</view>
-        <view class="hero-sub">拍一下证件，姓名 · 身份证号 · 住址自动成单</view>
+        <view class="hero-title">收粮收购助手</view>
+        <view class="hero-sub">识别身份证 · 开收购单 · 统计导出，一站式完成</view>
       </view>
       <view class="hero-gear" bindtap="openSettings">
         <image class="hero-gear-icon" src="{{icons.settingsWhite}}" />
@@ -13,6 +13,23 @@
           bindtap="onStatusTap">
       <view class="dot" />
       <text class="status-text">{{connectionText}}</text>
+    </view>
+  </view>
+
+  <view class="dual">
+    <view class="dual-card" bindtap="onScan">
+      <view class="dual-icon dark">
+        <image class="dual-img" src="{{icons.camera}}" />
+      </view>
+      <view class="dual-title">OCR 身份证识别</view>
+      <view class="dual-sub">拍一下 · 自动出信息</view>
+    </view>
+    <view class="dual-card" bindtap="goRecords">
+      <view class="dual-icon">
+        <image class="dual-img" src="{{icons.idcard}}" />
+      </view>
+      <view class="dual-title">收购工作台</view>
+      <view class="dual-sub">统计 · 开单 · 管理</view>
     </view>
   </view>
 
