@@ -1,0 +1,150 @@
+.page {
+  min-height: 100vh;
+  background: #f3f6f4;
+  padding: 24rpx 28rpx 60rpx;
+  box-sizing: border-box;
+}
+
+.error {
+  margin-bottom: 20rpx;
+  padding: 20rpx 24rpx;
+  background: #fdf1f0;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #c2453d;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18rpx;
+}
+
+.stat {
+  flex: 1 1 300rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(23, 40, 31, 0.05);
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #6b7a72;
+}
+
+.stat-value {
+  margin-top: 10rpx;
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #17281f;
+}
+
+.stat-unit {
+  margin-left: 6rpx;
+  font-size: 22rpx;
+  font-weight: 400;
+  color: #9aa69e;
+}
+
+.filters {
+  margin: 24rpx 0;
+  white-space: nowrap;
+}
+
+.filter {
+  display: inline-block;
+  padding: 12rpx 30rpx;
+  margin-right: 14rpx;
+  border-radius: 999rpx;
+  background: #ffffff;
+  font-size: 26rpx;
+  color: #5e6e64;
+}
+
+.filter.on {
+  background: #1f6f43;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(23, 40, 31, 0.05);
+}
+
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.receipt-no {
+  font-size: 24rpx;
+  color: #9aa69e;
+}
+
+.status {
+  font-size: 22rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+}
+
+.status.draft { background: #fff7e6; color: #b45309; }
+.status.confirmed { background: #e8f3ec; color: #1f6f43; }
+.status.void { background: #ececec; color: #888888; }
+
+.row-main {
+  margin-top: 14rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #17281f;
+}
+
+.amount {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1f6f43;
+}
+
+.row-sub {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #6b7a72;
+}
+
+.empty {
+  padding: 100rpx 0;
+  text-align: center;
+  color: #9aa69e;
+  font-size: 26rpx;
+}
+
+.create-btn {
+  margin-top: 10rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  border-radius: 18rpx;
+  background: #1f6f43;
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.create-btn::after { border: none; }
+
+.login-hint {
+  margin-top: 24rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #9aa69e;
+}

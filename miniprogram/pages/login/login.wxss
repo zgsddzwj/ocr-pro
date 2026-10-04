@@ -1,0 +1,65 @@
+.page {
+  min-height: 100vh;
+  background: #f3f6f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 48rpx 40rpx;
+  box-shadow: 0 6rpx 24rpx rgba(23, 40, 31, 0.08);
+}
+
+.title {
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #14361f;
+}
+
+.sub {
+  margin-top: 14rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #6b7a72;
+}
+
+.input {
+  margin-top: 26rpx;
+  height: 88rpx;
+  padding: 0 24rpx;
+  background: #f4f6f5;
+  border-radius: 14rpx;
+  font-size: 29rpx;
+}
+
+.ph {
+  color: #9aa69e;
+}
+
+.error {
+  margin: 20rpx 0 0;
+  font-size: 26rpx;
+  color: #c2453d;
+}
+
+.primary {
+  margin-top: 36rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  border-radius: 16rpx;
+  background: #1f6f43;
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.primary::after {
+  border: none;
+}

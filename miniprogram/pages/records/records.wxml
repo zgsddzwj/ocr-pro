@@ -1,0 +1,35 @@
+<view class="page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view class="stats">
+    <view wx:for="{{stats}}" wx:key="label" class="stat">
+      <view class="stat-label">{{item.label}}</view>
+      <view class="stat-value">{{item.value}}<text class="stat-unit">{{item.unit}}</text></view>
+    </view>
+  </view>
+
+  <scroll-view class="filters" scroll-x>
+    <view wx:for="{{filters}}" wx:key="v"
+          class="filter {{filter === item[0] ? 'on' : ''}}"
+          data-v="{{item[0]}}" bindtap="setFilter">{{item[1]}}</view>
+  </scroll-view>
+
+  <view class="list">
+    <view wx:for="{{list}}" wx:key="id" class="card" data-id="{{item.id}}" bindtap="openDetail">
+      <view class="row-top">
+        <text class="receipt-no">{{item.receiptNo}}</text>
+        <text class="status {{item.status}}">{{item.statusText}}</text>
+      </view>
+      <view class="row-main">
+        <text class="name">{{item.farmerName}}</text>
+        <text class="amount">{{item.amountText}} 元</text>
+      </view>
+      <view class="row-sub">{{item.date}} · {{item.product}} · 计价净重 {{item.weightText}} 公斤</view>
+    </view>
+
+    <view wx:if="{{!list.length}}" class="empty">还没有收购单，点下方「开新单」开始</view>
+  </view>
+
+  <button class="primary create-btn" bindtap="goCreate">+ 开新单</button>
+  <view class="login-hint" bindtap="goLogin">平台登录 / 切换账号</view>
+</view>

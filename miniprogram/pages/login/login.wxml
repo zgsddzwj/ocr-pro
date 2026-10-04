@@ -1,0 +1,19 @@
+<view class="page">
+  <view class="card">
+    <view class="title">{{mode === 'setup' ? '设置平台管理密码' : '登录收购平台'}}</view>
+    <view class="sub">{{mode === 'setup' ? '首次使用，密码将同时用于电脑端网页登录' : '输入平台管理密码（与网页端一致）'}}</view>
+
+    <input class="input" password value="{{password}}" bindinput="onPassword"
+           placeholder="{{mode === 'setup' ? '设置密码（至少 6 位）' : '管理密码'}}"
+           placeholder-class="ph" />
+
+    <input wx:if="{{mode === 'setup'}}" class="input" password value="{{confirm}}"
+           bindinput="onConfirm" placeholder="再次输入密码" placeholder-class="ph" />
+
+    <view wx:if="{{error}}" class="error">{{error}}</view>
+
+    <button class="primary" loading="{{busy}}" bindtap="submit">
+      {{mode === 'setup' ? '设置并进入' : '登 录'}}
+    </button>
+  </view>
+</view>

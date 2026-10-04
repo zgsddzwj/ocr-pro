@@ -1,0 +1,146 @@
+.page {
+  min-height: 100vh;
+  background: #f3f6f4;
+  padding: 24rpx 28rpx 60rpx;
+  box-sizing: border-box;
+}
+
+.error {
+  padding: 20rpx 24rpx;
+  background: #fdf1f0;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #c2453d;
+}
+
+.loading {
+  padding: 100rpx 0;
+  text-align: center;
+  color: #9aa69e;
+}
+
+.head {
+  margin-bottom: 22rpx;
+}
+
+.head-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.receipt-no {
+  font-size: 26rpx;
+  color: #6b7a72;
+}
+
+.status {
+  font-size: 22rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+}
+
+.status.draft { background: #fff7e6; color: #b45309; }
+.status.confirmed { background: #e8f3ec; color: #1f6f43; }
+.status.void { background: #ececec; color: #888888; }
+
+.head-sub {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #9aa69e;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 28rpx;
+  margin-bottom: 22rpx;
+  box-shadow: 0 4rpx 16rpx rgba(23, 40, 31, 0.05);
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #17281f;
+  margin-bottom: 14rpx;
+}
+
+.kv-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20rpx;
+  padding: 12rpx 0;
+  border-bottom: 2rpx dashed #eef2ef;
+}
+
+.kv-row:last-child {
+  border-bottom: none;
+}
+
+.kv-label {
+  flex-shrink: 0;
+  font-size: 25rpx;
+  color: #6b7a72;
+}
+
+.kv-value {
+  font-size: 27rpx;
+  color: #17281f;
+  text-align: right;
+  word-break: break-all;
+}
+
+.kv-value.strong {
+  font-weight: 700;
+}
+
+.kv-value.brand {
+  color: #1f6f43;
+}
+
+.kv-value.mono {
+  font-family: Menlo, Consolas, monospace;
+  font-size: 24rpx;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.btn {
+  flex: 1 1 44%;
+  height: 84rpx;
+  line-height: 84rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn::after { border: none; }
+
+.btn.confirm {
+  background: #1f6f43;
+  color: #ffffff;
+}
+
+.btn.ghost {
+  background: #ffffff;
+  color: #17281f;
+  border: 2rpx solid #e4eae6;
+}
+
+.btn.danger {
+  color: #c2453d;
+  border-color: #f2c6c2;
+}
+
+.web-hint {
+  margin-top: 26rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #9aa69e;
+}

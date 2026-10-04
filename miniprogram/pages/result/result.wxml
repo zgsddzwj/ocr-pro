@@ -58,9 +58,9 @@
   </button>
 
   <button class="btn btn-secondary btn-gap" bindtap="submitToPlatform"
-          disabled="{{submitting || submitted}}">
+          disabled="{{submitting}}">
     <image class="btn-icon" src="{{icons.download}}" />
-    <text>{{submitted ? '已提交到平台' : submitting ? '提交中…' : '提交到平台'}}</text>
+    <text>{{submitted ? '已提交 · 去开收购单 →' : submitting ? '提交中…' : '提交到平台'}}</text>
   </button>
 
   <view class="action-grid card">

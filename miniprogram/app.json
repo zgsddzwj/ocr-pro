@@ -1,8 +1,12 @@
 {
   "pages": [
     "pages/scan/scan",
+    "pages/records/records",
+    "pages/record-create/record-create",
+    "pages/record-detail/record-detail",
     "pages/result/result",
-    "pages/history/history"
+    "pages/history/history",
+    "pages/login/login"
   ],
   "window": {
     "navigationBarBackgroundColor": "#1E6F43",

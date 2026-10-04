@@ -34,6 +34,7 @@ Page({
     saved: false,
     submitting: false,
     submitted: false,
+    submittedFarmerId: '',
   },
 
   onLoad() {
@@ -99,8 +100,12 @@ Page({
   },
 
   async submitToPlatform() {
-    const { name, idNumber, address, submitting } = this.data;
+    const { name, idNumber, address, submitting, submitted } = this.data;
     if (submitting) return;
+    if (submitted) {
+      this.goCreateRecord();
+      return;
+    }
     if (!name && !idNumber) {
       wx.showToast({ title: '请先填写姓名和身份证号', icon: 'none' });
       return;
@@ -108,12 +113,18 @@ Page({
     this.setData({ submitting: true });
     try {
       const result = await api.submitFarmer({ name, idNumber, address });
-      this.setData({ submitted: true, submitting: false });
+      getApp().globalData.pendingFarmer = result.farmer;
+      this.setData({ submitted: true, submitting: false, submittedFarmerId: result.farmer.id });
       wx.showToast({ title: result.created ? '已录入平台' : '平台信息已更新', icon: 'success' });
     } catch (error) {
       this.setData({ submitting: false });
       wx.showModal({ title: '提交失败', content: error.message || '请重试', showCancel: false });
     }
+  },
+
+  goCreateRecord() {
+    if (!this.data.submittedFarmerId) return;
+    wx.navigateTo({ url: `/pages/record-create/record-create?farmerId=${this.data.submittedFarmerId}` });
   },
 
   async exportImage() {

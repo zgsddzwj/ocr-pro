@@ -1,0 +1,52 @@
+<view class="page">
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <block wx:if="{{record}}">
+    <view class="head">
+      <view class="head-line">
+        <text class="receipt-no">{{record.receiptNo}}</text>
+        <text class="status {{record.status}}">{{record.statusText}}</text>
+      </view>
+      <view class="head-sub">{{record.companyTitle}} {{record.date}}</view>
+    </view>
+
+    <view class="card">
+      <view class="section-title">卖方信息</view>
+      <view class="kv">
+        <view class="kv-row"><text class="kv-label">姓名</text><text class="kv-value strong">{{record.farmerName}}</text></view>
+        <view class="kv-row"><text class="kv-label">身份证号</text><text class="kv-value mono">{{record.farmerIdNumber}}</text></view>
+        <view class="kv-row"><text class="kv-label">住址</text><text class="kv-value">{{record.sellerAddress}}</text></view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="section-title">粮情检斤</view>
+      <view class="kv">
+        <view wx:for="{{record.weightRows}}" wx:key="label" class="kv-row">
+          <text class="kv-label">{{item.label}}</text><text class="kv-value">{{item.value}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="section-title">结算</view>
+      <view class="kv">
+        <view wx:for="{{record.settleRows}}" wx:key="label" class="kv-row">
+          <text class="kv-label">{{item.label}}</text>
+          <text class="kv-value {{item.label === '结算价款（元）' || item.label === '实付大写' ? 'strong brand' : ''}}">{{item.value}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="actions">
+      <button wx:if="{{record.status === 'draft'}}" class="btn confirm" loading="{{busy}}" bindtap="confirmSlip">确认开票</button>
+      <button wx:if="{{record.status === 'draft'}}" class="btn ghost" bindtap="deleteDraft">删除草稿</button>
+      <button wx:if="{{record.status !== 'void'}}" class="btn ghost danger" bindtap="voidSlip">作废</button>
+      <button class="btn ghost" bindtap="copyAll">复制全部</button>
+    </view>
+
+    <view class="web-hint">打印收据 / 导出 Excel 请在电脑或手机浏览器打开平台网页版操作</view>
+  </block>
+
+  <view wx:if="{{!record && !error}}" class="loading">加载中…</view>
+</view>

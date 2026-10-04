@@ -163,6 +163,10 @@ Page({
     });
   },
 
+  goRecords() {
+    wx.navigateTo({ url: '/pages/records/records' });
+  },
+
   goHistory() {
     wx.navigateTo({ url: '/pages/history/history' });
   },
