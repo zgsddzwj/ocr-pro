@@ -1,4 +1,16 @@
 /* ========== 设计令牌 ========== */
+/* ========== 原生组件归一化（抵消微信默认样式） ========== */
+button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input,
+textarea {
+  box-sizing: border-box;
+}
+
 page {
   --brand: #1E6F43;          /* 品牌绿 */
   --brand-dark: #14532D;

@@ -11,10 +11,10 @@ Page({
     loading: false,
     error: '',
     filters: [
-      ['all', '全部'],
-      ['draft', '草稿'],
-      ['confirmed', '已确认'],
-      ['void', '已作废'],
+      { v: 'all', label: '全部' },
+      { v: 'draft', label: '草稿' },
+      { v: 'confirmed', label: '已确认' },
+      { v: 'void', label: '已作废' },
     ],
   },
 

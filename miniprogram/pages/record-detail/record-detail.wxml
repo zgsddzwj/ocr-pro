@@ -7,7 +7,7 @@
         <text class="receipt-no">{{record.receiptNo}}</text>
         <text class="status {{record.status}}">{{record.statusText}}</text>
       </view>
-      <view class="head-sub">{{record.companyTitle}} {{record.date}}</view>
+      <view class="head-sub">{{record.companyTitle ? record.companyTitle + " · " : ""}}{{record.date}}</view>
     </view>
 
     <view class="card">

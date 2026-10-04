@@ -10,8 +10,8 @@
 
   <scroll-view class="filters" scroll-x>
     <view wx:for="{{filters}}" wx:key="v"
-          class="filter {{filter === item[0] ? 'on' : ''}}"
-          data-v="{{item[0]}}" bindtap="setFilter">{{item[1]}}</view>
+          class="filter {{filter === item.v ? 'on' : ''}}"
+          data-v="{{item.v}}" bindtap="setFilter">{{item.label}}</view>
   </scroll-view>
 
   <view class="list">

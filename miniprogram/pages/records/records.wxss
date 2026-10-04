@@ -130,9 +130,12 @@
 }
 
 .create-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 10rpx;
   height: 92rpx;
-  line-height: 92rpx;
   border-radius: 18rpx;
   background: #1f6f43;
   color: #ffffff;

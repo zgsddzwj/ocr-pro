@@ -65,7 +65,9 @@ function checkDataRefs(xml, js, file) {
   while ((match = expressionPattern.exec(xml))) expressions.add(match[1]);
 
   for (const expression of expressions) {
-    for (const identifier of expression.matchAll(/(^|[^.\w$'"])([A-Za-z_$][\w$]*)/g)) {
+    // 先剥离引号字符串字面量，避免把 'strong brand' 这类类名当变量误报
+    const cleaned = expression.replace(/'[^']*'|"[^"]*"/g, ' ');
+    for (const identifier of cleaned.matchAll(/(^|[^.\w$'"])([A-Za-z_$][\w$]*)/g)) {
       const name = identifier[2];
       if (keys.has(name) || VOID_TAGS.has(name)) continue;
       warn(`${file}: 模板引用了 data 中可能不存在的字段 {{${name}}}`);

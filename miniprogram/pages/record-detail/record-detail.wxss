@@ -144,3 +144,7 @@
   font-size: 24rpx;
   color: #9aa69e;
 }
+
+button.btn::after {
+  border: none;
+}
