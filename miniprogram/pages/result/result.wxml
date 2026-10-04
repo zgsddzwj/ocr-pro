@@ -1,0 +1,97 @@
+<view class="page">
+  <view class="slip card">
+    <view class="slip-head">
+      <view class="slip-company" wx:if="{{companyTitle}}">{{companyTitle}}</view>
+      <view class="slip-title">{{slipTitle}}</view>
+      <view class="slip-date">日期：{{dateText}}</view>
+    </view>
+
+    <view class="slip-table">
+      <view class="slip-row">
+        <view class="slip-label">姓　　名</view>
+        <view class="slip-value">
+          <input value="{{name}}" data-field="name" bindinput="onFieldInput"
+                 placeholder="请输入姓名" placeholder-class="ph" />
+          <view class="mini-copy" data-field="name" bindtap="copyField">
+            <image class="mini-copy-icon" src="{{icons.copy}}" />
+          </view>
+        </view>
+      </view>
+      <view class="slip-row">
+        <view class="slip-label">身份证号</view>
+        <view class="slip-value">
+          <input value="{{idNumber}}" data-field="idNumber" bindinput="onFieldInput"
+                 maxlength="18" placeholder="请输入身份证号" placeholder-class="ph" />
+          <view class="mini-copy" data-field="idNumber" bindtap="copyField">
+            <image class="mini-copy-icon" src="{{icons.copy}}" />
+          </view>
+        </view>
+      </view>
+      <view class="slip-row">
+        <view class="slip-label">地　　址</view>
+        <view class="slip-value">
+          <textarea value="{{address}}" data-field="address" bindinput="onFieldInput"
+                    auto-height maxlength="120" placeholder="请输入地址"
+                    placeholder-class="ph" />
+          <view class="mini-copy" data-field="address" bindtap="copyField">
+            <image class="mini-copy-icon" src="{{icons.copy}}" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{idInvalid}}" class="notice bad">
+    <image class="notice-icon" src="{{icons.warn}}" />
+    <text>身份证号校验位不对，请核对是否录入有误</text>
+  </view>
+  <view wx:if="{{warnings.length}}" class="notice warn">
+    <image class="notice-icon" src="{{icons.warn}}" />
+    <view class="notice-body">
+      <view wx:for="{{warnings}}" wx:key="*this" class="notice-line">{{item}}</view>
+    </view>
+  </view>
+
+  <button class="btn btn-primary copy-all" bindtap="copyAll">
+    <image class="btn-icon" src="{{icons.copyWhite}}" />
+    <text>复制全部</text>
+  </button>
+
+  <button class="btn btn-secondary btn-gap" bindtap="submitToPlatform"
+          disabled="{{submitting || submitted}}">
+    <image class="btn-icon" src="{{icons.download}}" />
+    <text>{{submitted ? '已提交到平台' : submitting ? '提交中…' : '提交到平台'}}</text>
+  </button>
+
+  <view class="action-grid card">
+    <view class="action" bindtap="saveRecord">
+      <image class="action-icon" src="{{icons.download}}" />
+      <text class="action-text">{{saved ? '已存入历史' : '存入历史'}}</text>
+    </view>
+    <view class="action" bindtap="exportImage">
+      <image class="action-icon" src="{{icons.idcard}}" />
+      <text class="action-text">单据图片</text>
+    </view>
+    <view class="action {{imagePath ? '' : 'disabled'}}" bindtap="previewIdCard">
+      <image class="action-icon" src="{{icons.image}}" />
+      <text class="action-text">证件照片</text>
+    </view>
+    <view class="action" bindtap="rescan">
+      <image class="action-icon" src="{{icons.refresh}}" />
+      <text class="action-text">重新扫描</text>
+    </view>
+  </view>
+
+  <view class="raw">
+    <view class="raw-toggle" bindtap="toggleRaw">
+      <text>{{showRaw ? '收起' : '查看'}}原始识别文字</text>
+      <text wx:if="{{engineText}}" class="raw-engine">{{engineText}}</text>
+    </view>
+    <view wx:if="{{showRaw}}" class="raw-list">
+      <view wx:for="{{rows}}" wx:key="index" class="raw-line">{{item}}</view>
+      <view wx:if="{{!rows.length}}" class="raw-line">（手动填写，无原始识别文字）</view>
+    </view>
+  </view>
+
+  <canvas type="2d" id="slipCanvas" class="slip-canvas"></canvas>
+</view>

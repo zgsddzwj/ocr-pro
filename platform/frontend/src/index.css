@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[#F3F6F4] text-[#17281F] antialiased;
+}
+
+@page {
+  size: A5 landscape;
+  margin: 6mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .receipt-print {
+    width: 100% !important;
+    border-width: 2px !important;
+  }
+}

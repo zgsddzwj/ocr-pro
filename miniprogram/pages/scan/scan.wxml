@@ -1,0 +1,100 @@
+<view class="page">
+  <view class="hero">
+    <view class="hero-top">
+      <view class="hero-titles">
+        <view class="hero-title">身份证识别填单</view>
+        <view class="hero-sub">拍一下证件，姓名 · 身份证号 · 住址自动成单</view>
+      </view>
+      <view class="hero-gear" bindtap="openSettings">
+        <image class="hero-gear-icon" src="{{icons.settingsWhite}}" />
+      </view>
+    </view>
+    <view class="hero-status {{connected === true ? 'ok' : connected === false ? 'bad' : ''}}"
+          bindtap="onStatusTap">
+      <view class="dot" />
+      <text class="status-text">{{connectionText}}</text>
+    </view>
+  </view>
+
+  <view class="main-card card">
+    <view class="scan-visual">
+      <image wx:if="{{previewPath}}" class="scan-preview" src="{{previewPath}}" mode="aspectFill" />
+      <view wx:else class="id-mock">
+        <view class="mock-portrait" />
+        <view class="mock-lines">
+          <view class="mock-line l1" />
+          <view class="mock-line l2" />
+          <view class="mock-line l3" />
+        </view>
+        <view class="mock-chip" />
+      </view>
+    </view>
+
+    <button class="btn btn-primary" bindtap="onScan" disabled="{{recognizing}}">
+      <image class="btn-icon" src="{{icons.camera}}" />
+      <text>{{recognizing ? '正在识别…' : '拍照识别身份证'}}</text>
+    </button>
+    <button class="btn btn-secondary btn-gap" bindtap="onPickAlbum" disabled="{{recognizing}}">
+      <image class="btn-icon" src="{{icons.image}}" />
+      <text>从相册选择</text>
+    </button>
+  </view>
+
+  <view class="steps card">
+    <view class="step">
+      <view class="step-num">1</view>
+      <view class="step-text">拍摄人像面</view>
+    </view>
+    <view class="step-line" />
+    <view class="step">
+      <view class="step-num">2</view>
+      <view class="step-text">核对可修改</view>
+    </view>
+    <view class="step-line" />
+    <view class="step">
+      <view class="step-num">3</view>
+      <view class="step-text">复制或打印</view>
+    </view>
+  </view>
+
+  <view class="tips">
+    <view class="tip">光线充足、证件摆正、避免反光，识别更准</view>
+    <view class="tip">识别记录仅保存在本机，可在历史中删除</view>
+  </view>
+
+  <view class="entry" bindtap="goHistory">
+    <image class="icon" src="{{icons.history}}" />
+    <text class="entry-text">历史记录</text>
+    <view class="entry-badge" wx:if="{{historyCount}}">{{historyCount}}</view>
+    <view class="entry-arrow">›</view>
+  </view>
+
+  <view class="mask" wx:if="{{showSettings}}" bindtap="closeSettings">
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-bar" />
+      <view class="sheet-title">设置</view>
+
+      <view class="field">
+        <view class="field-label">单位名称（单据抬头）</view>
+        <input class="field-input" value="{{settings.companyTitle}}"
+               placeholder="如：××农产品有限公司" placeholder-class="ph"
+               bindinput="onCompanyInput" />
+      </view>
+      <view class="field">
+        <view class="field-label">识别服务地址</view>
+        <input class="field-input" value="{{settings.serverBase}}"
+               placeholder="http://电脑局域网IP:3000" placeholder-class="ph"
+               bindinput="onServerInput" />
+      </view>
+      <view class="field-hint">填电脑上启动服务时打印的局域网地址或公网隧道地址，改完可先「测试连接」</view>
+      <view class="field-hint">当前生效地址：{{effectiveBase}}</view>
+
+      <view class="sheet-buttons">
+        <button class="btn btn-ghost btn-sm sheet-btn" bindtap="testConnection"
+                disabled="{{testing}}">{{testing ? '测试中…' : '测试连接'}}</button>
+        <button class="btn btn-primary btn-sm sheet-btn" bindtap="saveSettings">保存</button>
+      </view>
+      <view wx:if="{{testResult}}" class="test-result {{testState}}">{{testResult}}</view>
+    </view>
+  </view>
+</view>

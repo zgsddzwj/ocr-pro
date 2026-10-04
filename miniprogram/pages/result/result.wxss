@@ -1,0 +1,211 @@
+.page {
+  padding: 28rpx 28rpx 60rpx;
+  box-sizing: border-box;
+}
+
+/* ---------- 单据卡 ---------- */
+.slip {
+  padding: 40rpx 32rpx 32rpx;
+}
+
+.slip-head {
+  text-align: center;
+}
+
+.slip-company {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 56rpx;
+}
+
+.slip-title {
+  margin-top: 6rpx;
+  font-size: 31rpx;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 8rpx;
+}
+
+.slip-date {
+  margin: 30rpx 0 18rpx;
+  font-size: 27rpx;
+  color: var(--text-2);
+  text-align: left;
+}
+
+.slip-table {
+  border: 3rpx solid var(--ink);
+  border-bottom: none;
+}
+
+.slip-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 3rpx solid var(--ink);
+  min-height: 96rpx;
+}
+
+.slip-label {
+  width: 200rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 3rpx solid var(--ink);
+  background: #F7FAF8;
+  font-size: 28rpx;
+  color: var(--ink);
+  padding: 0 8rpx;
+}
+
+.slip-value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 14rpx 18rpx;
+  min-width: 0;
+}
+
+.slip-value input,
+.slip-value textarea {
+  flex: 1;
+  font-size: 30rpx;
+  color: var(--ink);
+  min-height: 56rpx;
+  width: 100%;
+}
+
+.mini-copy {
+  flex-shrink: 0;
+  margin-left: 14rpx;
+  padding: 12rpx;
+  border-radius: 10rpx;
+  background: var(--brand-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-copy-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+/* ---------- 提示条 ---------- */
+.notice {
+  margin-top: 24rpx;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  display: flex;
+  align-items: flex-start;
+  font-size: 26rpx;
+  line-height: 40rpx;
+}
+
+.notice.warn {
+  background: var(--warn-bg);
+  border: 2rpx solid var(--warn-line);
+  color: var(--warn);
+}
+
+.notice.bad {
+  background: var(--danger-bg);
+  border: 2rpx solid #F2C6C2;
+  color: var(--danger);
+}
+
+.notice-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 14rpx;
+  margin-top: 4rpx;
+  flex-shrink: 0;
+}
+
+.notice-body {
+  flex: 1;
+}
+
+.notice-line {
+  line-height: 40rpx;
+}
+
+/* ---------- 主操作 ---------- */
+.copy-all {
+  margin-top: 32rpx;
+}
+
+.btn-gap {
+  margin-top: 20rpx;
+}
+
+.action-grid {
+  margin-top: 24rpx;
+  padding: 28rpx 12rpx;
+  display: flex;
+}
+
+.action {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.action.disabled {
+  opacity: 0.4;
+}
+
+.action-icon {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.action-text {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--text-2);
+}
+
+/* ---------- 原始识别文字 ---------- */
+.raw {
+  margin-top: 36rpx;
+}
+
+.raw-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26rpx;
+  color: var(--brand);
+  padding: 10rpx 8rpx;
+}
+
+.raw-engine {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.raw-list {
+  margin-top: 14rpx;
+  background: var(--card);
+  border-radius: 16rpx;
+  padding: 22rpx 26rpx;
+}
+
+.raw-line {
+  font-size: 24rpx;
+  color: var(--text-2);
+  line-height: 40rpx;
+  word-break: break-all;
+}
+
+/* ---------- 离屏画布 ---------- */
+.slip-canvas {
+  position: fixed;
+  left: -2000rpx;
+  top: 0;
+  width: 900rpx;
+  height: 620rpx;
+}

@@ -1,0 +1,17 @@
+# 依赖与构建产物
+node_modules/
+.venv/
+__pycache__/
+.pytest_cache/
+platform/frontend/dist/
+
+# 敏感与本机数据：绝不入库
+platform/backend/.env
+platform/backend/data/
+platform/backend/testdata/fixtures/real1.jpg
+platform/backend/testdata/fixtures/ground_truth_real.json
+
+# 本机/工具文件
+.DS_Store
+.zcode/
+project.private.config.json

@@ -1,0 +1,43 @@
+<view class="page">
+  <view class="search">
+    <image class="search-icon" src="{{icons.search}}" />
+    <input class="search-input" value="{{keyword}}" placeholder="搜索姓名、身份证号或地址"
+           placeholder-class="ph" bindinput="onSearch" confirm-type="search" />
+  </view>
+
+  <block wx:if="{{list.length}}">
+    <view class="meta">
+      <text>共 {{list.length}} 条记录</text>
+      <text class="clear" bindtap="clearAll">清空</text>
+    </view>
+
+    <view wx:for="{{list}}" wx:key="id" class="record card">
+      <view class="avatar">{{item.initial}}</view>
+      <view class="record-main">
+        <view class="record-top">
+          <text class="record-name">{{item.name || '（未识别姓名）'}}</text>
+          <text class="record-time">{{item.timeText}}</text>
+        </view>
+        <view class="record-line mono">{{item.idNumber || '—'}}</view>
+        <view class="record-line clamp">{{item.address || '—'}}</view>
+      </view>
+      <view class="record-actions">
+        <view class="record-btn" data-id="{{item.id}}" bindtap="copyItem">
+          <image class="record-btn-icon" src="{{icons.copy}}" />
+        </view>
+        <view class="record-btn danger" data-id="{{item.id}}" bindtap="removeItem">
+          <image class="record-btn-icon" src="{{icons.trash}}" />
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view wx:else class="empty">
+    <view class="empty-circle">
+      <image class="empty-icon" src="{{icons.idcard}}" />
+    </view>
+    <view class="empty-text">{{keyword ? '没有匹配的记录' : '还没有记录'}}</view>
+    <view class="empty-hint">{{keyword ? '换个关键词试试' : '扫描身份证后点「存入历史」即可保存'}}</view>
+    <button wx:if="{{!keyword}}" class="btn btn-secondary btn-sm" bindtap="goScan">去扫描</button>
+  </view>
+</view>

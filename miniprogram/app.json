@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/scan/scan",
+    "pages/result/result",
+    "pages/history/history"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#1E6F43",
+    "navigationBarTitleText": "身份证识别填单",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F3F6F4",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

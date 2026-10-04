@@ -1,0 +1,117 @@
+/* ========== 设计令牌 ========== */
+page {
+  --brand: #1E6F43;          /* 品牌绿 */
+  --brand-dark: #14532D;
+  --brand-light: #E8F3EC;
+  --bg: #F3F6F4;
+  --card: #FFFFFF;
+  --line: #E4EAE6;
+  --text-1: #17281F;
+  --text-2: #5E6E64;
+  --text-3: #9AA69E;
+  --warn: #B45309;
+  --warn-bg: #FFF8EB;
+  --warn-line: #F3DDA4;
+  --danger: #C2453D;
+  --danger-bg: #FDF1F0;
+  --ink: #1A1A1A;            /* 单据表格墨色 */
+  --shadow-card: 0 6rpx 24rpx rgba(23, 40, 31, 0.06);
+  --shadow-btn: 0 10rpx 24rpx rgba(30, 111, 67, 0.24);
+  background: var(--bg);
+  color: var(--text-1);
+  font-size: 28rpx;
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+/* ========== 按钮 ========== */
+button.btn {
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 20rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  height: 96rpx;
+  line-height: 96rpx;
+  padding: 0 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.btn::after {
+  border: none;
+}
+
+/* 按钮内文字防溢出：超宽时省略号，绝不撑出按钮 */
+button.btn text {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+button.btn-sm {
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  border-radius: 16rpx;
+}
+
+button.btn-primary {
+  background: var(--brand);
+  color: #ffffff;
+  box-shadow: var(--shadow-btn);
+}
+
+button.btn-primary[disabled] {
+  background: #A3C4B2;
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: none;
+}
+
+button.btn-secondary {
+  background: var(--brand-light);
+  color: var(--brand);
+}
+
+button.btn-secondary[disabled] {
+  background: #EFF4F1;
+  color: #AEBBB2;
+}
+
+button.btn-ghost {
+  background: var(--card);
+  color: var(--text-1);
+  border: 2rpx solid var(--line);
+}
+
+button.btn-ghost[disabled] {
+  color: var(--text-3);
+}
+
+.btn-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 14rpx;
+}
+
+/* ========== 通用卡片 ========== */
+.card {
+  background: var(--card);
+  border-radius: 24rpx;
+  box-shadow: var(--shadow-card);
+}
+
+/* ========== 布局工具 ========== */
+.page {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.icon {
+  width: 40rpx;
+  height: 40rpx;
+  flex-shrink: 0;
+}

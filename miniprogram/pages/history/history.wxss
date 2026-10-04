@@ -1,0 +1,174 @@
+.page {
+  padding: 24rpx 28rpx 60rpx;
+  box-sizing: border-box;
+}
+
+/* ---------- 搜索 ---------- */
+.search {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border-radius: 20rpx;
+  box-shadow: var(--shadow-card);
+  padding: 0 26rpx;
+  height: 84rpx;
+}
+
+.search-icon {
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 16rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  height: 84rpx;
+}
+
+.ph {
+  color: var(--text-3);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26rpx 10rpx 20rpx;
+  font-size: 24rpx;
+  color: var(--text-3);
+}
+
+.clear {
+  color: var(--danger);
+  padding: 6rpx 0;
+}
+
+/* ---------- 记录卡 ---------- */
+.record {
+  display: flex;
+  align-items: flex-start;
+  padding: 28rpx;
+  margin-bottom: 22rpx;
+}
+
+.avatar {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 20rpx;
+  background: var(--brand-light);
+  color: var(--brand);
+  font-size: 34rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.record-main {
+  flex: 1;
+  min-width: 0;
+  margin: 0 18rpx;
+}
+
+.record-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.record-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.record-time {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.record-line {
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  color: var(--text-2);
+  line-height: 36rpx;
+}
+
+.record-line.mono {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 1rpx;
+}
+
+.record-line.clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.record-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.record-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  background: var(--brand-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.record-btn.danger {
+  margin-top: 14rpx;
+  background: var(--danger-bg);
+}
+
+.record-btn-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  padding: 140rpx 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-circle {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 44rpx;
+  background: var(--brand-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.empty-text {
+  margin-top: 30rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.empty-hint {
+  margin: 14rpx 0 44rpx;
+  font-size: 26rpx;
+  color: var(--text-3);
+}
+
+.empty .btn {
+  width: 320rpx;
+}
