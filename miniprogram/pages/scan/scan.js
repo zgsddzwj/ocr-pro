@@ -19,6 +19,7 @@ Page({
     testResult: '',
     testState: '',
     settings: { companyTitle: '', serverBase: '' },
+    effectiveBase: '',
     recent: [],
   },
 
