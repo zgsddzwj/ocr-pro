@@ -12,16 +12,12 @@ const PROVIDER_LABEL = {
 Page({
   data: {
     icons,
-    recognizing: false,
-    previewPath: '',
-    historyCount: 0,
     connected: null,
     connectionText: '正在检查识别服务…',
     showSettings: false,
     testing: false,
     testResult: '',
     testState: '',
-    effectiveBase: '',
     settings: { companyTitle: '', serverBase: '' },
   },
 
@@ -38,7 +34,6 @@ Page({
       stored.serverBase = '';
     }
     this.setData({
-      historyCount: store.getHistory().length,
       settings: {
         companyTitle: stored.companyTitle || config.companyTitle,
         serverBase: stored.serverBase || config.serverBase,
@@ -95,80 +90,12 @@ Page({
     }
   },
 
-  onScan() {
-    this.chooseImage('camera');
-  },
-
-  onPickAlbum() {
-    this.chooseImage('album');
-  },
-
-  chooseImage(sourceType) {
-    if (this.data.recognizing) return;
-    wx.chooseMedia({
-      count: 1,
-      mediaType: ['image'],
-      sourceType: [sourceType],
-      sizeType: ['compressed'],
-      camera: 'back',
-      success: (res) => {
-        const file = (res.tempFiles || [])[0];
-        if (!file) return;
-        this.setData({ previewPath: file.tempFilePath });
-        this.recognize(file.tempFilePath);
-      },
-      fail: () => {},
-    });
-  },
-
-  async recognize(filePath) {
-    this.setData({ recognizing: true });
-    wx.showLoading({ title: '识别中…', mask: true });
-    try {
-      const result = await api.recognizeIdCard(filePath);
-      wx.hideLoading();
-      this.setData({ recognizing: false });
-      getApp().globalData.current = Object.assign({ imagePath: filePath }, result);
-      wx.navigateTo({ url: '/pages/result/result' });
-    } catch (error) {
-      wx.hideLoading();
-      this.setData({ recognizing: false });
-      this.showFailure(error, filePath);
-    }
-  },
-
-  showFailure(error, filePath) {
-    wx.showModal({
-      title: '识别失败',
-      content: error.message || '请重试',
-      confirmText: '重试',
-      cancelText: '手动填写',
-      success: (res) => {
-        if (res.confirm) {
-          this.recognize(filePath);
-          return;
-        }
-        getApp().globalData.current = {
-          imagePath: filePath,
-          name: '',
-          idNumber: '',
-          address: '',
-          warnings: ['未能自动识别，请手动填写'],
-          rows: [],
-          provider: '',
-          elapsedMs: 0,
-        };
-        wx.navigateTo({ url: '/pages/result/result' });
-      },
-    });
+  goOcr() {
+    wx.navigateTo({ url: '/pages/ocr/ocr' });
   },
 
   goRecords() {
     wx.navigateTo({ url: '/pages/records/records' });
-  },
-
-  goHistory() {
-    wx.navigateTo({ url: '/pages/history/history' });
   },
 
   openSettings() {

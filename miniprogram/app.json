@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/scan/scan",
+    "pages/ocr/ocr",
     "pages/records/records",
     "pages/record-create/record-create",
     "pages/record-detail/record-detail",
