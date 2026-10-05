@@ -2,7 +2,7 @@
 module.exports = {
   // 识别服务地址：默认走公网隧道（电脑在后端开机自启 + 隧道服务的状态下，任何网络都能连）
   // 注意：隧道进程重启后地址会变，用 tools/tunnel-url.sh 查最新地址并同步这里
-  serverBase: 'https://floor-robot-minimal-constraints.trycloudflare.com',
+  serverBase: 'https://expand-builds-revelation-harvard.trycloudflare.com',
 
   // 单据抬头（公司/单位名称），留空则只显示副标题
   companyTitle: '',

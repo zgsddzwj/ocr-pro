@@ -3,7 +3,7 @@
     <view class="hero-top">
       <view class="hero-titles">
         <view class="hero-title">收粮收购助手</view>
-        <view class="hero-sub">识别身份证 · 开收购单 · 统计导出，一站式完成</view>
+        <view class="hero-sub">识别身份证 · 开收购单 · 统计导出</view>
       </view>
       <view class="hero-gear" bindtap="openSettings">
         <image class="hero-gear-icon" src="{{icons.settingsWhite}}" />
@@ -23,6 +23,7 @@
       </view>
       <view class="dual-title">OCR 身份证识别</view>
       <view class="dual-sub">拍一下 · 自动出信息</view>
+      <view class="dual-go">进入 ›</view>
     </view>
     <view class="dual-card" bindtap="goRecords">
       <view class="dual-icon">
@@ -30,8 +31,22 @@
       </view>
       <view class="dual-title">收购工作台</view>
       <view class="dual-sub">统计 · 开单 · 管理</view>
+      <view class="dual-go">进入 ›</view>
     </view>
   </view>
+
+  <view class="recent" wx:if="{{recent.length}}">
+    <view class="recent-head">
+      <text class="recent-title">最近识别</text>
+      <text class="recent-all" bindtap="goHistory">全部 ›</text>
+    </view>
+    <view wx:for="{{recent}}" wx:key="id" class="recent-row">
+      <text class="recent-name">{{item.name || '未识别姓名'}}</text>
+      <text class="recent-time">{{item.timeText}}</text>
+    </view>
+  </view>
+
+  <view class="footer">收粮收购助手 · 让收购登记更简单</view>
 
   <view class="mask" wx:if="{{showSettings}}" bindtap="closeSettings">
     <view class="sheet" catchtap="noop">

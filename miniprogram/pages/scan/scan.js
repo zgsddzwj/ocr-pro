@@ -19,6 +19,7 @@ Page({
     testResult: '',
     testState: '',
     settings: { companyTitle: '', serverBase: '' },
+    recent: [],
   },
 
   onLoad() {
@@ -38,6 +39,11 @@ Page({
         companyTitle: stored.companyTitle || config.companyTitle,
         serverBase: stored.serverBase || config.serverBase,
       },
+      recent: store.getHistory().slice(0, 3).map((item) => ({
+        id: item.id,
+        name: item.name,
+        timeText: store.formatTime(item.createdAt),
+      })),
     });
     this.checkHealth();
   },
@@ -92,6 +98,10 @@ Page({
 
   goOcr() {
     wx.navigateTo({ url: '/pages/ocr/ocr' });
+  },
+
+  goHistory() {
+    wx.navigateTo({ url: '/pages/history/history' });
   },
 
   goRecords() {

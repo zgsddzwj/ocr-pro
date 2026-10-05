@@ -366,9 +366,10 @@
 .dual-card {
   flex: 1;
   background: #ffffff;
-  border-radius: 20rpx;
-  padding: 30rpx 26rpx;
-  box-shadow: 0 4rpx 16rpx rgba(23, 40, 31, 0.05);
+  border-radius: 22rpx;
+  padding: 34rpx 28rpx;
+  box-shadow: 0 6rpx 20rpx rgba(23, 40, 31, 0.07);
+  border: 2rpx solid #eef2ef;
 }
 
 .dual-icon {
@@ -401,4 +402,67 @@
   margin-top: 6rpx;
   font-size: 22rpx;
   color: #9aa69e;
+}
+
+.dual-go {
+  margin-top: 16rpx;
+  font-size: 22rpx;
+  color: #1f6f43;
+}
+
+/* ---------- 最近识别 ---------- */
+.recent {
+  margin: 24rpx 32rpx 0;
+  background: #ffffff;
+  border-radius: 22rpx;
+  padding: 26rpx 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(23, 40, 31, 0.05);
+}
+
+.recent-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10rpx;
+}
+
+.recent-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #17281f;
+}
+
+.recent-all {
+  font-size: 24rpx;
+  color: #9aa69e;
+}
+
+.recent-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 2rpx dashed #eef2ef;
+}
+
+.recent-row:last-child {
+  border-bottom: none;
+}
+
+.recent-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #17281f;
+}
+
+.recent-time {
+  font-size: 22rpx;
+  color: #9aa69e;
+}
+
+.footer {
+  margin-top: 44rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #c0c9c3;
 }
