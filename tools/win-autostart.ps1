@@ -19,8 +19,10 @@ if (-not $portBusy) {
     -WorkingDirectory $bk -WindowStyle Hidden
 }
 
-# 隧道：已有 cloudflared 在跑就不重复拉守护
-if (-not (Get-Process cloudflared -ErrorAction SilentlyContinue)) {
+# 隧道守护：已有 cloudflared 在跑、或守护脚本实例已存在（可能正处于 300 秒重试睡眠）就不再拉起
+$guardRunning = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" |
+  Where-Object { $_.CommandLine -like '*tunnel-run.ps1*' }
+if (-not $guardRunning -and -not (Get-Process cloudflared -ErrorAction SilentlyContinue)) {
   Start-Process powershell.exe `
     -ArgumentList '-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', (Join-Path $PSScriptRoot 'tunnel-run.ps1') `
     -WindowStyle Hidden
