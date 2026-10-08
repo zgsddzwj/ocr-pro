@@ -51,12 +51,13 @@ function Sync-Config($url) {
 while ($true) {
   $url = ''
   if ($staticDomain) {
-    # ngrok 固定域名：地址不变，先同步再拉起
+    # ngrok 固定域名：地址不变，先同步再拉起（ngrok 日志单独存，避免覆盖守护事件日志）
     $url = "https://$staticDomain"
     Sync-Config $url
+    $ngLog = Join-Path $root 'platform\backend\data\tunnel-ngrok.log'
     $proc = Start-Process -FilePath (Join-Path $PSScriptRoot 'ngrok.exe') `
       -ArgumentList 'http', '8000', "--url=$staticDomain", '--log=stdout', '--log-format=json' `
-      -RedirectStandardError $log -RedirectStandardOutput $logOut `
+      -RedirectStandardError $ngLog -RedirectStandardOutput $logOut `
       -PassThru -WindowStyle Hidden
   } else {
     $proc = Start-Process -FilePath (Join-Path $PSScriptRoot 'cloudflared.exe') `
