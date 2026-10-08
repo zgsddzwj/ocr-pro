@@ -15,3 +15,5 @@ platform/backend/testdata/fixtures/ground_truth_real.json
 .DS_Store
 .zcode/
 project.private.config.json
+miniprogram/project.config.json
+tools/cloudflared.exe
