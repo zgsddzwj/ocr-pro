@@ -22,7 +22,10 @@ function setToken(token) {
 /** 统一请求：自动带登录态；401 时清 token 并标记 needLogin */
 function request(path, { method = 'GET', data, auth = true } = {}) {
   return new Promise((resolve, reject) => {
-    const header = { 'content-type': 'application/json' };
+    const header = {
+      'content-type': 'application/json',
+      'ngrok-skip-browser-warning': 'true',
+    };
     const token = getToken();
     if (auth && token) header.Authorization = `Bearer ${token}`;
     wx.request({
@@ -89,6 +92,7 @@ function checkHealth() {
     wx.request({
       url,
       method: 'GET',
+      header: { 'ngrok-skip-browser-warning': 'true' },
       timeout: 8000,
       success: (response) => {
         const body = response.data || {};

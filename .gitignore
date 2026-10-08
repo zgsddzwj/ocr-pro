@@ -17,3 +17,4 @@ platform/backend/testdata/fixtures/ground_truth_real.json
 project.private.config.json
 miniprogram/project.config.json
 tools/cloudflared.exe
+tools/ngrok.exe

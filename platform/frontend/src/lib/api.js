@@ -10,7 +10,7 @@ export function setToken(token) {
 }
 
 async function request(path, { method = 'GET', body } = {}) {
-  const headers = {};
+  const headers = { 'ngrok-skip-browser-warning': 'true' };
   const token = getToken();
   if (token) headers.Authorization = `Bearer ${token}`;
   if (body !== undefined) headers['Content-Type'] = 'application/json';
