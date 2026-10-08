@@ -20,7 +20,14 @@ if (Test-Path $conf) {
   }
 }
 if ($staticDomain) {
-  Add-Content $log "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] 使用 ngrok 固定域名模式: $staticDomain"
+  # 固定域名需要 authtoken 已配置，否则回落 cloudflared 模式
+  & (Join-Path $PSScriptRoot 'ngrok.exe') config check *> $null
+  if ($LASTEXITCODE -eq 0) {
+    Add-Content $log "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] 使用 ngrok 固定域名模式: $staticDomain"
+  } else {
+    Add-Content $log "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] ngrok authtoken 未配置，回落 cloudflared 免费隧道模式"
+    $staticDomain = ''
+  }
 }
 
 function Get-TunnelUrl {
