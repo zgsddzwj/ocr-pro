@@ -1,11 +1,16 @@
 <view class="page">
+  <!-- 顶部品牌区 -->
   <view class="hero">
+    <view class="hero-bg">
+      <view class="hero-deco deco-1" />
+      <view class="hero-deco deco-2" />
+    </view>
     <view class="hero-top">
       <view class="hero-titles">
         <view class="hero-title">收粮收购助手</view>
         <view class="hero-sub">识别身份证 · 开收购单 · 统计导出</view>
       </view>
-      <view class="hero-gear" bindtap="openSettings">
+      <view class="hero-gear" hover-class="press" bindtap="openSettings">
         <image class="hero-gear-icon" src="{{icons.settingsWhite}}" />
       </view>
     </view>
@@ -16,33 +21,56 @@
     </view>
   </view>
 
-  <view class="dual">
-    <view class="dual-card" bindtap="goOcr">
-      <view class="dual-icon dark">
-        <image class="dual-img" src="{{icons.camera}}" />
+  <!-- 主操作区 -->
+  <view class="actions">
+    <!-- 主入口：扫证识别 -->
+    <view class="scan-card" hover-class="card-press" bindtap="goOcr">
+      <view class="scan-bg">
+        <view class="scan-deco sdeco-1" />
+        <view class="scan-deco sdeco-2" />
       </view>
-      <view class="dual-title">OCR 身份证识别</view>
-      <view class="dual-sub">拍一下 · 自动出信息</view>
-      <view class="dual-go">进入 ›</view>
+      <view class="scan-icon">
+        <image class="scan-icon-img" src="{{icons.camera}}" />
+      </view>
+      <view class="scan-body">
+        <view class="scan-title">扫证识别</view>
+        <view class="scan-sub">拍一下身份证，自动识别姓名、号码、住址</view>
+        <view class="scan-cta">开始识别 ›</view>
+      </view>
     </view>
-    <view class="dual-card" bindtap="goRecords">
-      <view class="dual-icon">
-        <image class="dual-img" src="{{icons.idcard}}" />
+
+    <!-- 次入口：收购工作台 -->
+    <view class="bench-card" hover-class="card-press" bindtap="goRecords">
+      <view class="bench-icon">
+        <image class="bench-icon-img" src="{{icons.idcard}}" />
       </view>
-      <view class="dual-title">收购工作台</view>
-      <view class="dual-sub">统计 · 开单 · 管理</view>
-      <view class="dual-go">进入 ›</view>
+      <view class="bench-body">
+        <view class="bench-title">收购工作台</view>
+        <view class="bench-sub">统计 · 开单 · 农户管理</view>
+      </view>
+      <view class="bench-arrow">›</view>
     </view>
   </view>
 
-  <view class="recent" wx:if="{{recent.length}}">
+  <!-- 最近识别 -->
+  <view class="recent">
     <view class="recent-head">
       <text class="recent-title">最近识别</text>
-      <text class="recent-all" bindtap="goHistory">全部 ›</text>
+      <text class="recent-count" wx:if="{{historyCount}}">共 {{historyCount}} 条</text>
+      <text class="recent-all" wx:if="{{recent.length}}" bindtap="goHistory">全部 ›</text>
     </view>
-    <view wx:for="{{recent}}" wx:key="id" class="recent-row">
-      <text class="recent-name">{{item.name || '未识别姓名'}}</text>
-      <text class="recent-time">{{item.timeText}}</text>
+    <block wx:if="{{recent.length}}">
+      <view wx:for="{{recent}}" wx:key="id" class="recent-row">
+        <text class="recent-name">{{item.name || '未识别姓名'}}</text>
+        <text class="recent-time">{{item.timeText}}</text>
+      </view>
+    </block>
+    <view wx:else class="recent-empty">
+      <view class="empty-icon">
+        <image class="empty-icon-img" src="{{icons.history}}" />
+      </view>
+      <view class="empty-text">还没有识别记录</view>
+      <view class="empty-hint">点上方「开始识别」，扫一下身份证试试</view>
     </view>
   </view>
 

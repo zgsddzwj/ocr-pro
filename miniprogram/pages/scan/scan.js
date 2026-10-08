@@ -21,6 +21,7 @@ Page({
     settings: { companyTitle: '', serverBase: '' },
     effectiveBase: '',
     recent: [],
+    historyCount: 0,
   },
 
   onLoad() {
@@ -35,16 +36,18 @@ Page({
       store.saveSettings({ serverBase: '' });
       stored.serverBase = '';
     }
+    const history = store.getHistory();
     this.setData({
       settings: {
         companyTitle: stored.companyTitle || config.companyTitle,
         serverBase: stored.serverBase || config.serverBase,
       },
-      recent: store.getHistory().slice(0, 3).map((item) => ({
+      recent: history.slice(0, 3).map((item) => ({
         id: item.id,
         name: item.name,
         timeText: store.formatTime(item.createdAt),
       })),
+      historyCount: history.length,
     });
     this.checkHealth();
   },
