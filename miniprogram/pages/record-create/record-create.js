@@ -1,5 +1,6 @@
 const api = require('../../utils/api');
 const calc = require('../../utils/calc');
+const icons = require('../../utils/icons');
 
 const NUMERIC_FIELDS = [
   'moisture', 'impurity', 'moldy', 'gross', 'tare',
@@ -32,6 +33,8 @@ const EMPTY = {
 
 Page({
   data: {
+    icons: icons,
+    needLogin: false,
     farmer: null,
     farmerQuery: '',
     farmerResults: [],
@@ -47,11 +50,27 @@ Page({
   },
 
   onLoad(query) {
+    this._farmerIdQuery = query.farmerId || '';
+    this._inited = false;
+  },
+
+  onShow() {
+    // 平台数据接口都要登录：未登录先展示登录引导，登录回来后自动继续
+    if (!api.getToken()) {
+      this.setData({ needLogin: true });
+      return;
+    }
+    this.setData({ needLogin: false });
+    if (!this._inited) this.init();
+  },
+
+  init() {
     // 从识别结果页「去开单」跳入时，带农户信息
     const app = getApp();
-    if (query.farmerId && app.globalData.pendingFarmer) {
+    if (this._farmerIdQuery && app.globalData.pendingFarmer) {
       this.setData({ farmer: app.globalData.pendingFarmer });
       app.globalData.pendingFarmer = null;
+      this._farmerIdQuery = '';
     }
     api
       .getSettings()
@@ -69,6 +88,11 @@ Page({
       })
       .catch(() => {});
     this.updateComputed(this.data.form);
+    this._inited = true;
+  },
+
+  goLogin() {
+    wx.navigateTo({ url: '/pages/login/login' });
   },
 
   updateComputed(form) {
@@ -160,6 +184,12 @@ Page({
       getApp().globalData.currentRecord = record;
       wx.redirectTo({ url: `/pages/record-detail/record-detail?id=${record.id}` });
     } catch (error) {
+      if (error.needLogin) {
+        // 登录态过期：回到登录引导，登录成功返回后自动补拉配置
+        this._inited = false;
+        this.setData({ needLogin: true, busy: false });
+        return;
+      }
       this.setData({ error: error.message, busy: false });
     }
   },

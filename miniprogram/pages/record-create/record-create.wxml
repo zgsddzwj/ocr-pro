@@ -1,4 +1,14 @@
 <view class="page">
+  <view wx:if="{{needLogin}}" class="login-gate">
+    <view class="gate-icon">
+      <image class="gate-icon-img" src="{{icons.idcard}}" />
+    </view>
+    <view class="gate-title">开单前先登录平台</view>
+    <view class="gate-sub">登录后才能搜索农户、保存收购单据</view>
+    <button class="btn btn-primary gate-btn" bindtap="goLogin">去登录</button>
+  </view>
+
+  <block wx:else>
   <view wx:if="{{error}}" class="error">{{error}}</view>
 
   <view class="card">
@@ -144,4 +154,5 @@
     </view>
     <button class="save-btn" loading="{{busy}}" bindtap="save">保存单据</button>
   </view>
+  </block>
 </view>

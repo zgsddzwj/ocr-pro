@@ -22,6 +22,52 @@
   color: #c2453d;
 }
 
+/* ---------- 登录引导 ---------- */
+.login-gate {
+  margin: 120rpx 32rpx 0;
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 80rpx 48rpx 72rpx;
+  box-shadow: 0 6rpx 20rpx rgba(23, 40, 31, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gate-icon {
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 50%;
+  background: #e8f3ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gate-icon-img {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.gate-title {
+  margin-top: 32rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #17281f;
+}
+
+.gate-sub {
+  margin-top: 12rpx;
+  font-size: 25rpx;
+  color: #9aa69e;
+  line-height: 36rpx;
+}
+
+.gate-btn {
+  margin-top: 48rpx;
+}
+
 .section-title {
   font-size: 30rpx;
   font-weight: 700;
