@@ -123,13 +123,13 @@ function ReceiptSheet({ record }) {
             </td>
           </tr>
           <tr>
-            <td className={`${TD} text-left text-xs`} colSpan={2}>
+            <td className={`${TD} pb-4 text-left text-xs`} colSpan={2}>
               化验员：{record.checker || ''}
             </td>
-            <td className={`${TD} text-left text-xs`} colSpan={2}>
+            <td className={`${TD} pb-4 text-left text-xs`} colSpan={2}>
               监管员：{record.supervisor || ''}
             </td>
-            <td className={`${TD} text-left text-xs`} colSpan={3}>
+            <td className={`${TD} pb-4 text-left text-xs`} colSpan={3}>
               进出时间：{record.weighInAt ? `${record.weighInAt}${record.weighOutAt ? ` / ${record.weighOutAt}` : ''}` : ''}
             </td>
           </tr>
@@ -176,13 +176,13 @@ export default function ReceiptView({ record }) {
 
   return (
     <div className="receipt receipt-print mx-auto w-full max-w-[900px] bg-white text-black">
-      {/* ---------- 桌面 / 打印：表格版 ---------- */}
-      <div className="hidden p-4 text-[13px] leading-tight md:block">
+      {/* ---------- 桌面 / 打印：表格版（打印时强制使用，与 PDF 一致） ---------- */}
+      <div className="receipt-table hidden p-4 text-[13px] leading-tight md:block">
         <ReceiptSheet record={record} />
       </div>
 
-      {/* ---------- 手机：堆叠卡片版（同字段顺序） ---------- */}
-      <div className="p-4 md:hidden">
+      {/* ---------- 手机：堆叠卡片版（同字段顺序，不参与打印） ---------- */}
+      <div className="receipt-stacked p-4 md:hidden">
         <div className="text-center">
           {record.companyTitle ? (
             <div className="text-xl font-bold tracking-wide">{record.companyTitle}</div>
@@ -259,7 +259,7 @@ export default function ReceiptView({ record }) {
 
       {/* ---------- 离屏常驻表格版：供「存为 PDF」截图，不参与打印 ---------- */}
       <div className="pdf-stage" aria-hidden="true">
-        <div className="receipt-pdf-sheet bg-white p-4 text-[13px] leading-tight text-black">
+        <div className="receipt-pdf-sheet bg-white p-4 pb-10 text-[13px] leading-tight text-black">
           <ReceiptSheet record={record} />
         </div>
       </div>

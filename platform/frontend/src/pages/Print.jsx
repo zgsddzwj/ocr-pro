@@ -4,7 +4,7 @@ import { api } from '../lib/api';
 import ReceiptView from '../components/ReceiptView';
 
 /** A5 横向页面尺寸（毫米） */
-const PAGE = { width: 210, height: 148, margin: 6 };
+const PAGE = { width: 210, height: 148, margin: 8 };
 
 export default function Print() {
   const { id } = useParams();

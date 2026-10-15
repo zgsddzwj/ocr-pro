@@ -33,6 +33,15 @@ body {
     display: none !important;
   }
 
+  /* 打印一律用表格版（与 PDF 一致），窄窗口下也不打堆叠版 */
+  .receipt-table {
+    display: block !important;
+  }
+
+  .receipt-stacked {
+    display: none !important;
+  }
+
   .receipt-print {
     width: 100% !important;
     border-width: 2px !important;
