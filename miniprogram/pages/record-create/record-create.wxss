@@ -202,13 +202,15 @@
 
 .computed {
   margin-top: 24rpx;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 18rpx;
   background: #e8f3ec;
   border-radius: 14rpx;
   padding: 20rpx 22rpx;
 }
 
-.c-item { flex: 1; }
+.c-item { min-width: 0; }
 
 .c-label { font-size: 22rpx; color: #6b7a72; }
 

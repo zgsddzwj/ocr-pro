@@ -45,7 +45,6 @@ const EMPTY = {
 // 「更多选项」里的字段定义：[key, label, placeholder]
 const MORE_NUMERIC = [
   ['unloadFee', '卸车费（元）'],
-  ['moisture', '水分%'],
   ['impurity', '杂质%'],
   ['moldy', '生霉粒%'],
   ['deductSite', '场地扣量'],
@@ -60,9 +59,6 @@ const MORE_TEXT = [
   ['unloadSpot', '卸车货位'],
   ['warehouse', '入库仓号'],
   ['phone', '联系电话'],
-  ['bankCard', '银行卡号'],
-  ['bankName', '开户行'],
-  ['weighInAt', '进出时间（毛检/皮检）'],
   ['checker', '化验员'],
   ['weigher', '检斤员'],
   ['manager', '管理员'],
@@ -333,15 +329,47 @@ export default function PurchaseEdit() {
           </div>
         </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl bg-brand-light px-4 py-3 text-sm">
+        <div className="mt-3 grid grid-cols-3 gap-3">
           <div>
-            <span className="text-xs text-gray-500">净重</span>
+            <label className={labelCls}>水分%</label>
+            <input
+              type="number"
+              inputMode="decimal"
+              step="0.1"
+              value={form.moisture}
+              onChange={setField('moisture')}
+              placeholder="0"
+              className={inputCls}
+            />
+          </div>
+          {textField('bankCard', '银行卡号', '结算收款卡号')}
+          {textField('bankName', '开户行', '如：农业银行平原支行')}
+        </div>
+
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          {textField('weighInAt', '毛检时间', '如：08:30')}
+          {textField('weighOutAt', '皮检时间', '如：09:10')}
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl bg-brand-light px-4 py-3 text-sm md:grid-cols-5">
+          <div>
+            <span className="text-xs text-gray-500">扣前净重</span>
             <div className="font-bold">{fmtWeight(derived.netWeight)}</div>
           </div>
           <div>
-            <span className="text-xs text-gray-500">计价净重</span>
+            <span className="text-xs text-gray-500">扣量总重</span>
+            <div className="font-bold">{fmtWeight(derived.deductTotal)}</div>
+          </div>
+          <div>
+            <span className="text-xs text-gray-500">扣后净重</span>
             <div className={`font-bold ${overDeducted ? 'text-red-600' : 'text-brand'}`}>
               {fmtWeight(derived.pricedWeight)}
+            </div>
+          </div>
+          <div>
+            <span className="text-xs text-gray-500">粮食价款</span>
+            <div className={`font-bold ${overDeducted ? 'text-red-600' : 'text-brand'}`}>
+              {fmtAmount(derived.grainAmount)}
             </div>
           </div>
           <div>
@@ -352,7 +380,7 @@ export default function PurchaseEdit() {
           </div>
         </div>
         {overDeducted ? (
-          <p className="mt-2 text-xs text-red-600">扣量合计已超过净重，请检查「更多选项」里的扣量数字</p>
+          <p className="mt-2 text-xs text-red-600">扣量合计已超过扣前净重，请检查扣量数字</p>
         ) : null}
       </div>
 
@@ -366,7 +394,7 @@ export default function PurchaseEdit() {
           <span className="text-sm font-bold text-ink">
             ③ 更多选项
             <span className="ml-2 text-xs font-normal text-gray-400">
-              扣量、化验数据、银行账户、人员签字等，选填
+              扣量、杂质/生霉粒、等级车号、人员签字、备注等，选填
             </span>
           </span>
           <span className="shrink-0 text-xs text-brand">{showMore ? '收起 ▲' : '展开 ▼'}</span>
@@ -387,9 +415,7 @@ export default function PurchaseEdit() {
               <div className="mb-3 text-xs text-gray-400">单据信息</div>
               <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                 {MORE_TEXT.map(([key, label]) => (
-                  <div key={key} className={key === 'weighInAt' ? 'col-span-2' : ''}>
-                    {textField(key, label)}
-                  </div>
+                  <div key={key}>{textField(key, label)}</div>
                 ))}
               </div>
             </div>

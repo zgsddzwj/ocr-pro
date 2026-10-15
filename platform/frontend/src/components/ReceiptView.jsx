@@ -3,8 +3,6 @@ import { fmtAmount, fmtPrice, fmtWeight } from '../lib/format';
 const TH = 'border border-black bg-gray-100 px-2 py-1 text-center font-normal whitespace-nowrap';
 const TD = 'border border-black px-2 py-1 text-center';
 
-const ROLE_MAP = { 化验员: 'checker', 检斤员: 'weigher', 管理员: 'manager', 监管员: 'supervisor', 付款员: 'payer' };
-
 /** 手机端堆叠版的一行：标签 + 值 */
 function MRow({ label, value, strong, mono }) {
   return (
@@ -27,13 +25,17 @@ function MSection({ title, children }) {
 }
 
 /**
- * 收购凭证。桌面/打印 = 7 列表格版（对齐纸质样单）；手机 = 堆叠卡片版。
+ * 原粮收购统一凭证。桌面/打印 = 7 列表格版（严格对齐纸质样单）；手机 = 同字段顺序的堆叠版。
  * record: 后端 RecordOut（含 farmerName/farmerIdNumber/farmerAddress/companyTitle/slipTitle）
+ * 检质证号复用系统单据编号 receiptNo。
  */
 export default function ReceiptView({ record }) {
   if (!record) return null;
   const statusText =
     record.status === 'confirmed' ? '已确认' : record.status === 'void' ? '已作废' : '草稿';
+  const inOutText = record.weighInAt
+    ? `${record.weighInAt}${record.weighOutAt ? ` / ${record.weighOutAt}` : ''}`
+    : '';
 
   return (
     <div className="receipt receipt-print mx-auto w-full max-w-[900px] bg-white text-black">
@@ -53,36 +55,32 @@ export default function ReceiptView({ record }) {
         </div>
 
         <div className="mt-2 flex flex-wrap justify-between gap-2 text-xs text-gray-700">
-          <span>单位:公斤;元</span>
+          <span>单位：公斤；元</span>
           <span>日期：{record.date}</span>
-          <span>编号：{record.receiptNo}</span>
+          <span>检质证号：{record.receiptNo}</span>
         </div>
 
         <table className="mt-1 w-full table-fixed border-collapse">
           <tbody>
             <tr>
               <th className={TH}>姓　名</th>
-              <td className={`${TD} font-semibold`} colSpan={2}>
-                {record.farmerName}
-              </td>
+              <td className={`${TD} font-semibold`}>{record.farmerName}</td>
               <th className={TH}>身份证号</th>
-              <td className={`${TD} whitespace-nowrap font-mono text-xs`} colSpan={3}>
+              <td className={`${TD} whitespace-nowrap font-mono text-[11px] tracking-tight`}>
                 {record.farmerIdNumber}
               </td>
-            </tr>
-            <tr>
               <th className={TH}>地　址</th>
-              <td className={`${TD} break-all text-left`} colSpan={6}>
+              <td className={`${TD} break-all text-left`} colSpan={2}>
                 {record.farmerAddress}
               </td>
             </tr>
 
             <tr>
-              <th className={TH}>品名</th>
+              <th className={TH}>产品名称</th>
               <th className={TH}>等级</th>
-              <th className={TH}>水分%</th>
-              <th className={TH}>杂质%</th>
-              <th className={TH}>生霉粒%</th>
+              <th className={TH}>水分</th>
+              <th className={TH}>杂质</th>
+              <th className={TH}>生霉粒</th>
               <th className={TH}>毛重</th>
               <th className={TH}>皮重</th>
             </tr>
@@ -116,32 +114,32 @@ export default function ReceiptView({ record }) {
             </tr>
 
             <tr>
-              <th className={TH}>单价（公斤）</th>
-              <th className={TH}>市斤价</th>
+              <th className={TH}>单价</th>
               <th className={TH}>粮食价款</th>
               <th className={TH}>卸车费</th>
               <th className={TH}>结算价款</th>
+              <th className={TH}>市斤价</th>
               <th className={TH}>卸车货位</th>
               <th className={TH}>车号</th>
             </tr>
             <tr>
               <td className={TD}>{fmtPrice(record.pricePerKg)}</td>
-              <td className={TD}>{fmtPrice(record.pricePerJin)}</td>
               <td className={TD}>{fmtAmount(record.grainAmount)}</td>
               <td className={TD}>{fmtAmount(record.unloadFee)}</td>
               <td className={`${TD} font-bold`}>{fmtAmount(record.totalAmount)}</td>
+              <td className={TD}>{fmtPrice(record.pricePerJin)}</td>
               <td className={TD}>{record.unloadSpot}</td>
               <td className={TD}>{record.vehicleNo}</td>
             </tr>
 
             <tr>
-              <th className={TH}>实付大写</th>
+              <th className={TH}>大写金额</th>
               <td className={`${TD} text-left font-semibold`} colSpan={3}>
-                {record.amountCn || '—'}
+                {record.amountCn || ''}
               </td>
-              <th className={TH}>入库仓号</th>
+              <th className={TH}>开户行</th>
               <td className={TD} colSpan={2}>
-                {record.warehouse}
+                {record.bankName}
               </td>
             </tr>
             <tr>
@@ -149,37 +147,27 @@ export default function ReceiptView({ record }) {
               <td className={`${TD} font-mono text-xs`} colSpan={2}>
                 {record.bankCard}
               </td>
-              <th className={TH}>开户行</th>
-              <td className={TD} colSpan={3}>
-                {record.bankName}
-              </td>
-            </tr>
-            <tr>
               <th className={TH}>联系电话</th>
-              <td className={TD} colSpan={2}>
+              <td className={TD} colSpan={3}>
                 {record.phone}
               </td>
-              <th className={TH}>进出时间</th>
-              <td className={`${TD} text-xs`} colSpan={3}>
-                {record.weighInAt}
-                {record.weighOutAt ? ` / ${record.weighOutAt}` : ''}
-              </td>
             </tr>
             <tr>
-              {Object.keys(ROLE_MAP).map((role) => (
-                <td key={role} className={`${TD} text-left text-xs`}>
-                  {role}：{record[ROLE_MAP[role]] || ''}
-                </td>
-              ))}
               <td className={`${TD} text-left text-xs`} colSpan={2}>
-                备注：{record.note || '—'}
+                化验员：{record.checker || ''}
+              </td>
+              <td className={`${TD} text-left text-xs`} colSpan={2}>
+                监管员：{record.supervisor || ''}
+              </td>
+              <td className={`${TD} text-left text-xs`} colSpan={3}>
+                进出时间：{inOutText}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      {/* ---------- 手机：堆叠卡片版 ---------- */}
+      {/* ---------- 手机：堆叠卡片版（同字段顺序） ---------- */}
       <div className="p-4 md:hidden">
         <div className="text-center">
           {record.companyTitle ? (
@@ -191,9 +179,10 @@ export default function ReceiptView({ record }) {
         </div>
 
         <div className="mt-2 flex justify-between text-xs text-gray-600">
+          <span>单位：公斤；元</span>
           <span>日期：{record.date}</span>
-          <span>编号：{record.receiptNo}</span>
         </div>
+        <div className="mt-1 text-xs text-gray-600">检质证号：{record.receiptNo}</div>
 
         <MSection title="卖方">
           <MRow label="姓名" value={record.farmerName} strong />
@@ -203,11 +192,11 @@ export default function ReceiptView({ record }) {
 
         <MSection title="粮情检斤">
           <div className="grid grid-cols-2 gap-x-4">
-            <MRow label="品名" value={record.product} />
+            <MRow label="产品名称" value={record.product} />
             <MRow label="等级" value={record.grade} />
-            <MRow label="水分%" value={record.moisture} />
-            <MRow label="杂质%" value={record.impurity} />
-            <MRow label="生霉粒%" value={record.moldy} />
+            <MRow label="水分" value={record.moisture} />
+            <MRow label="杂质" value={record.impurity} />
+            <MRow label="生霉粒" value={record.moldy} />
             <MRow label="毛重" value={fmtWeight(record.gross)} />
             <MRow label="皮重" value={fmtWeight(record.tare)} />
           </div>
@@ -216,40 +205,37 @@ export default function ReceiptView({ record }) {
         <MSection title="扣量">
           <div className="grid grid-cols-2 gap-x-4">
             <MRow label="场地扣量" value={fmtWeight(record.deductSite)} />
+            <MRow label="扣前净重" value={fmtWeight(record.netWeight)} strong />
             <MRow label="水分扣量" value={fmtWeight(record.deductMoisture)} />
             <MRow label="杂质扣量" value={fmtWeight(record.deductImpurity)} />
             <MRow label="生霉扣量" value={fmtWeight(record.deductMoldy)} />
-            <MRow label="扣前净重" value={fmtWeight(record.netWeight)} />
-            <MRow label="扣量总重" value={fmtWeight(record.deductTotal)} strong />
+            <MRow label="扣量总重" value={fmtWeight(record.deductTotal)} />
             <MRow label="扣后净重" value={fmtWeight(record.pricedWeight)} strong />
           </div>
         </MSection>
 
         <MSection title="结算">
           <div className="grid grid-cols-2 gap-x-4">
-            <MRow label="单价（公斤）" value={fmtPrice(record.pricePerKg)} />
-            <MRow label="市斤价" value={fmtPrice(record.pricePerJin)} />
+            <MRow label="单价" value={fmtPrice(record.pricePerKg)} />
             <MRow label="粮食价款" value={fmtAmount(record.grainAmount)} />
             <MRow label="卸车费" value={fmtAmount(record.unloadFee)} />
-            <MRow label="车号" value={record.vehicleNo} />
+            <MRow label="市斤价" value={fmtPrice(record.pricePerJin)} />
             <MRow label="卸车货位" value={record.unloadSpot} />
-            <MRow label="入库仓号" value={record.warehouse} />
-            <MRow label="联系电话" value={record.phone} />
-            <MRow label="银行卡号" value={record.bankCard} mono />
-            <MRow label="开户行" value={record.bankName} />
-            <MRow label="进出时间" value={record.weighInAt ? `${record.weighInAt}${record.weighOutAt ? ` / ${record.weighOutAt}` : ''}` : ''} />
+            <MRow label="车号" value={record.vehicleNo} />
           </div>
           <MRow label="结算价款" value={`${fmtAmount(record.totalAmount)} 元`} strong />
-          <MRow label="实付大写" value={record.amountCn || '—'} strong />
+          <MRow label="大写金额" value={record.amountCn || ''} strong />
+          <MRow label="开户行" value={record.bankName} />
+          <MRow label="银行卡号" value={record.bankCard} mono />
+          <MRow label="联系电话" value={record.phone} />
         </MSection>
 
-        <MSection title="人员">
+        <MSection title="签字">
           <div className="grid grid-cols-2 gap-x-4">
-            {Object.keys(ROLE_MAP).map((role) => (
-              <MRow key={role} label={role} value={record[ROLE_MAP[role]]} />
-            ))}
+            <MRow label="化验员" value={record.checker} />
+            <MRow label="监管员" value={record.supervisor} />
           </div>
-          <MRow label="备注" value={record.note} />
+          <MRow label="进出时间" value={inOutText} />
         </MSection>
       </div>
 

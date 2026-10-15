@@ -5,7 +5,7 @@ from sqlmodel import Session
 from ..models import AppSetting
 
 DEFAULTS = {
-    "companyTitle": "",
+    "companyTitle": "平原天齐粮贸有限公司",
     "slipTitle": "原粮收购统一凭证",
     "checkNoPrefix": "",
     "defaultProduct": "玉米",

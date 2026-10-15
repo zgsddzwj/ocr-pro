@@ -28,6 +28,10 @@ const EMPTY = {
   phone: '',
   bankCard: '',
   bankName: '',
+  weighInAt: '',
+  weighOutAt: '',
+  checker: '',
+  supervisor: '',
   note: '',
 };
 
@@ -42,7 +46,13 @@ Page({
     manualFarmer: false,
     manual: { name: '', idNumber: '', address: '' },
     form: EMPTY,
-    computed: { netWeightText: '0', pricedWeightText: '0', totalAmountText: '0.00' },
+    computed: {
+      netWeightText: '0',
+      deductTotalText: '0',
+      pricedWeightText: '0',
+      grainAmountText: '0.00',
+      totalAmountText: '0.00',
+    },
     overDeducted: false,
     showMore: false,
     busy: false,
@@ -100,7 +110,9 @@ Page({
     this.setData({
       computed: {
         netWeightText: calc.fmtWeight(derived.netWeight),
+        deductTotalText: calc.fmtWeight(derived.deductTotal),
         pricedWeightText: calc.fmtWeight(derived.pricedWeight),
+        grainAmountText: calc.fmtAmount(derived.grainAmount),
         totalAmountText: calc.fmtAmount(derived.totalAmount),
       },
       overDeducted: derived.pricedWeight < 0,

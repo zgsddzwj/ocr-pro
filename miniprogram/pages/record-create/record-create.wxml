@@ -72,14 +72,48 @@
       </view>
     </view>
 
+    <view class="grid3 gap-top">
+      <view>
+        <view class="label">水分%</view>
+        <input class="input" type="digit" value="{{form.moisture}}" data-k="moisture" bindinput="setField" placeholder="0" placeholder-class="ph" />
+      </view>
+      <view>
+        <view class="label">银行卡号</view>
+        <input class="input" type="number" value="{{form.bankCard}}" data-k="bankCard" bindinput="setField" placeholder="结算收款卡号" placeholder-class="ph" />
+      </view>
+      <view>
+        <view class="label">开户行</view>
+        <input class="input" value="{{form.bankName}}" data-k="bankName" bindinput="setField" placeholder="如：农业银行平原支行" placeholder-class="ph" />
+      </view>
+    </view>
+
+    <view class="grid2 gap-top">
+      <view>
+        <view class="label">毛检时间</view>
+        <input class="input" value="{{form.weighInAt}}" data-k="weighInAt" bindinput="setField" placeholder="如：08:30" placeholder-class="ph" />
+      </view>
+      <view>
+        <view class="label">皮检时间</view>
+        <input class="input" value="{{form.weighOutAt}}" data-k="weighOutAt" bindinput="setField" placeholder="如：09:10" placeholder-class="ph" />
+      </view>
+    </view>
+
     <view class="computed">
       <view class="c-item">
-        <view class="c-label">净重</view>
+        <view class="c-label">扣前净重</view>
         <view class="c-value">{{computed.netWeightText}}</view>
       </view>
       <view class="c-item">
-        <view class="c-label">计价净重</view>
+        <view class="c-label">扣量总重</view>
+        <view class="c-value">{{computed.deductTotalText}}</view>
+      </view>
+      <view class="c-item">
+        <view class="c-label">扣后净重</view>
         <view class="c-value brand">{{computed.pricedWeightText}}</view>
+      </view>
+      <view class="c-item">
+        <view class="c-label">粮食价款</view>
+        <view class="c-value brand">{{computed.grainAmountText}}</view>
       </view>
       <view class="c-item">
         <view class="c-label">结算价款</view>
@@ -101,8 +135,6 @@
         <view class="field-grid">
           <view class="field"><view class="label">卸车费（元）</view>
             <input class="input" type="digit" value="{{form.unloadFee}}" data-k="unloadFee" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-          <view class="field"><view class="label">水分%</view>
-            <input class="input" type="digit" value="{{form.moisture}}" data-k="moisture" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
           <view class="field"><view class="label">杂质%</view>
             <input class="input" type="digit" value="{{form.impurity}}" data-k="impurity" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
           <view class="field"><view class="label">生霉粒%</view>
@@ -131,10 +163,10 @@
             <input class="input" value="{{form.warehouse}}" data-k="warehouse" bindinput="setField" /></view>
           <view class="field"><view class="label">联系电话</view>
             <input class="input" type="number" value="{{form.phone}}" data-k="phone" bindinput="setField" /></view>
-          <view class="field"><view class="label">银行卡号</view>
-            <input class="input" type="number" value="{{form.bankCard}}" data-k="bankCard" bindinput="setField" /></view>
-          <view class="field"><view class="label">开户行</view>
-            <input class="input" value="{{form.bankName}}" data-k="bankName" bindinput="setField" /></view>
+          <view class="field"><view class="label">化验员</view>
+            <input class="input" value="{{form.checker}}" data-k="checker" bindinput="setField" /></view>
+          <view class="field"><view class="label">监管员</view>
+            <input class="input" value="{{form.supervisor}}" data-k="supervisor" bindinput="setField" /></view>
         </view>
       </view>
 

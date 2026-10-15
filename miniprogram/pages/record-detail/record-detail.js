@@ -21,17 +21,17 @@ Page({
 
   decorate(record) {
     const weightRows = [
-      ['品名', record.product],
+      ['产品名称', record.product],
       ['等级', record.grade],
       ['车号', record.vehicleNo],
       ['毛重（公斤）', calc.fmtWeight(record.gross)],
       ['皮重（公斤）', calc.fmtWeight(record.tare)],
-      ['净重（公斤）', calc.fmtWeight(record.netWeight)],
+      ['扣前净重（公斤）', calc.fmtWeight(record.netWeight)],
       ['水分%', record.moisture],
       ['杂质%', record.impurity],
       ['生霉粒%', record.moldy],
       ['扣量总重（公斤）', calc.fmtWeight(record.deductTotal)],
-      ['计价净重（公斤）', calc.fmtWeight(record.pricedWeight)],
+      ['扣后净重（公斤）', calc.fmtWeight(record.pricedWeight)],
     ];
     const settleRows = [
       ['单价（元/公斤）', calc.fmtWeight(record.pricePerKg)],
@@ -39,12 +39,20 @@ Page({
       ['粮食价款（元）', calc.fmtAmount(record.grainAmount)],
       ['卸车费（元）', calc.fmtAmount(record.unloadFee)],
       ['结算价款（元）', calc.fmtAmount(record.totalAmount)],
-      ['实付大写', record.amountCn],
+      ['大写金额', record.amountCn],
       ['入库仓号', record.warehouse],
       ['卸车货位', record.unloadSpot],
       ['联系电话', record.phone],
       ['银行卡号', record.bankCard],
       ['开户行', record.bankName],
+      [
+        '进出时间',
+        record.weighInAt
+          ? `${record.weighInAt}${record.weighOutAt ? ` / ${record.weighOutAt}` : ''}`
+          : '',
+      ],
+      ['化验员', record.checker],
+      ['监管员', record.supervisor],
       ['备注', record.note],
     ];
     return {
@@ -82,7 +90,7 @@ Page({
       `品名：${r.product}`,
       `毛重：${calc.fmtWeight(r.gross)} 公斤`,
       `皮重：${calc.fmtWeight(r.tare)} 公斤`,
-      `计价净重：${calc.fmtWeight(r.pricedWeight)} 公斤`,
+      `扣后净重：${calc.fmtWeight(r.pricedWeight)} 公斤`,
       `单价：${r.pricePerKg} 元/公斤`,
       `结算价款：${calc.fmtAmount(r.totalAmount)} 元`,
     ].join('\n');
