@@ -11,12 +11,25 @@ body {
   margin: 6mm;
 }
 
+/* 离屏常驻的表格版凭证：供「存为 PDF」截图（html2canvas 无法截取 display:none 的元素） */
+.pdf-stage {
+  position: fixed;
+  left: -20000px;
+  top: 0;
+  width: 900px;
+  pointer-events: none;
+}
+
 @media print {
   body {
     background: #ffffff;
   }
 
   .no-print {
+    display: none !important;
+  }
+
+  .pdf-stage {
     display: none !important;
   }
 
