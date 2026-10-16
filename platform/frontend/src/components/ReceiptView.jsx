@@ -9,7 +9,7 @@ const TDB = 'px-1 py-1';
 /**
  * 桌面/打印/PDF 共用的表格版版式：严格照纸质样单。
  * 共用 13 栏基础网格，各行的跨格都是它的整数分割，因此竖线贯穿所有行：
- *   顶部信息行 2|2|2|2|2|3 ／ 卖方 1|1|3|3|4 ／ 粮情 1|1|1|1|1|3|1|1|1|2 ／ 底部与签字 1|1|1|5|1|4
+ *   顶部信息行 2|2|4|5 ／ 卖方 1|1|3|3|4 ／ 粮情 1|1|1|1|1|3|1|1|1|2 ／ 底部与签字 1|1|1|5|1|4
  * 对齐关系（用户指定）：身份证号=杂质霉变+毛重+皮重、地址=综合扣量+净重、联系电话=单价+市斤价+金额；
  *   卸车货位=产品等级、金额大写=杂质霉变、银行账号=净重。
  * 卖方与粮情两块均为「字段名一行、内容一行」。
@@ -37,24 +37,19 @@ function ReceiptSheet({ record }) {
 
       <table className="mt-1 w-full table-fixed border-collapse">
         <tbody>
-          {/* 顶部信息行（无边框，左对齐）：2 | 2 | 2 | 2 | 2 | 3 */}
+          {/* 顶部信息行（无边框）：2 | 2 | 4 | 5
+              单位左对齐；日期、检质证号整组右对齐（空白落在标签左侧） */}
           <tr>
-            <th className={THB} colSpan={2}>
+            <th className={`${THB} text-left`} colSpan={2}>
               单位：公斤；元
             </th>
             <td className={TDB} colSpan={2} />
-            <th className={`${THB} text-right`} colSpan={2}>
-              日期：
+            <th className={`${THB} text-right`} colSpan={4}>
+              日期：{record.date}
             </th>
-            <td className={TDB} colSpan={2}>
-              {record.date}
-            </td>
-            <th className={`${THB} text-right`} colSpan={2}>
-              检质证号：
+            <th className={`${THB} text-right`} colSpan={5}>
+              检质证号：{record.receiptNo}
             </th>
-            <td className={TDB} colSpan={3}>
-              {record.receiptNo}
-            </td>
           </tr>
 
           {/* 卖方：1 | 1 | 3 | 3 | 4
