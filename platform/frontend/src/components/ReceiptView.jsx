@@ -9,7 +9,7 @@ const TDB = 'px-1 py-1 text-center';
 /**
  * 桌面/打印/PDF 共用的表格版版式：严格照纸质样单。
  * 共用 14 栏基础网格，各行的跨格都是它的整数分割，因此竖线贯穿所有行：
- *   顶部信息行 3|2|2|2|2|3 ／ 卖方 1|1|3|3|6 ／ 粮情 1|1|1|1|1|2|1|1|2|3 ／ 底部 1|2|1|5|2|3
+ *   顶部信息行 3|2|2|2|2|3 ／ 卖方 1|1|3|3|6 ／ 粮情 1|1|1|1|1|2|1|1|2|3 ／ 底部与签字 1|1|1|4|1|6
  * 卖方与粮情两块均为「字段名一行、内容一行」。
  */
 function ReceiptSheet({ record }) {
@@ -35,9 +35,9 @@ function ReceiptSheet({ record }) {
 
       <table className="mt-1 w-full table-fixed border-collapse">
         <tbody>
-          {/* 顶部信息行（无边框）：3 | 2 | 2 | 2 | 2 | 3 */}
+          {/* 顶部信息行（无边框）：3 | 2 | 2 | 2 | 2 | 3，单位居左 */}
           <tr>
-            <th className={THB} colSpan={3}>
+            <th className={`${THB} text-left`} colSpan={3}>
               单位：公斤；元
             </th>
             <td className={TDB} colSpan={2} />
@@ -122,37 +122,30 @@ function ReceiptSheet({ record }) {
             </td>
           </tr>
 
-          {/* 底部单据行：1 | 2 | 1 | 5 | 2 | 3 */}
+          {/* 底部单据行：1 | 1 | 1 | 4 | 1 | 6
+              卸车货位 = 产品等级 ／ 金额大写 = 杂质霉变 ／ 银行账号 = 净重 */}
           <tr>
             <th className={TH}>卸车货位</th>
-            <td className={TD} colSpan={2}>
-              {record.unloadSpot}
-            </td>
+            <td className={TD}>{record.unloadSpot}</td>
             <th className={TH}>金额大写</th>
-            <td className={`${TD} text-left font-semibold`} colSpan={5}>
+            <td className={`${TD} text-left font-semibold`} colSpan={4}>
               {record.amountCn || ''}
             </td>
-            <th className={TH} colSpan={2}>
-              银行账号
-            </th>
-            <td className={`${TD} font-mono text-xs`} colSpan={3}>
+            <th className={TH}>银行账号</th>
+            <td className={`${TD} font-mono text-xs`} colSpan={6}>
               {record.bankCard}
             </td>
           </tr>
-          {/* 签字行（无边框）：1 | 2 | 1 | 5 | 2 | 3 */}
+          {/* 签字行（无边框）：与上一行同跨度 1 | 1 | 1 | 4 | 1 | 6 */}
           <tr>
             <th className={`${THB} text-left text-[11px]`}>化验员：</th>
-            <td className={`${TDB} text-left text-xs`} colSpan={2}>
-              {record.checker || ''}
-            </td>
+            <td className={`${TDB} text-left text-xs`}>{record.checker || ''}</td>
             <th className={`${THB} text-left text-[11px]`}>监管员：</th>
-            <td className={`${TDB} text-left text-xs`} colSpan={5}>
+            <td className={`${TDB} text-left text-xs`} colSpan={4}>
               {record.supervisor || ''}
             </td>
-            <th className={`${THB} text-left text-[11px]`} colSpan={2}>
-              进出时间：
-            </th>
-            <td className={`${TDB} text-left text-xs`} colSpan={3}>
+            <th className={`${THB} text-left text-[11px]`}>进出时间：</th>
+            <td className={`${TDB} text-left text-xs`} colSpan={6}>
               {inOutText}
             </td>
           </tr>
