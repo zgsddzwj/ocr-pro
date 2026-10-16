@@ -2,6 +2,9 @@ import { fmtAmount, fmtPrice, fmtWeight } from '../lib/format';
 
 const TH = 'border border-black bg-gray-100 px-1 py-1 text-center text-[12px] font-normal whitespace-nowrap';
 const TD = 'border border-black px-1 py-1 text-center';
+// 无边框单元格（顶部信息行、底部签字行）：仅保留与表格一致的列对齐
+const THB = 'px-1 py-1 text-center text-[12px] font-normal whitespace-nowrap';
+const TDB = 'px-1 py-1 text-center';
 
 /**
  * 桌面/打印/PDF 共用的表格版版式：严格照纸质样单。
@@ -31,20 +34,20 @@ function ReceiptSheet({ record }) {
       <table className="mt-1 w-full table-fixed border-collapse">
         <tbody>
           <tr>
-            <th className={TH} colSpan={6}>
+            <th className={THB} colSpan={6}>
               单位：公斤；元
             </th>
-            <td className={TD} colSpan={6} />
-            <th className={TH} colSpan={2}>
+            <td className={TDB} colSpan={6} />
+            <th className={THB} colSpan={2}>
               日期：
             </th>
-            <td className={TD} colSpan={4}>
+            <td className={TDB} colSpan={4}>
               {record.date}
             </td>
-            <th className={TH} colSpan={3}>
+            <th className={THB} colSpan={3}>
               检质证号：
             </th>
-            <td className={TD} colSpan={3}>
+            <td className={TDB} colSpan={3}>
               {record.receiptNo}
             </td>
           </tr>
@@ -170,22 +173,22 @@ function ReceiptSheet({ record }) {
             </td>
           </tr>
           <tr>
-            <th className={`${TH} text-left`} colSpan={3}>
+            <th className={`${THB} text-left`} colSpan={3}>
               化验员：
             </th>
-            <td className={`${TD} text-left text-xs`} colSpan={6}>
+            <td className={`${TDB} text-left text-xs`} colSpan={6}>
               {record.checker || ''}
             </td>
-            <th className={`${TH} text-left`} colSpan={3}>
+            <th className={`${THB} text-left`} colSpan={3}>
               监管员：
             </th>
-            <td className={`${TD} text-left text-xs`} colSpan={6}>
+            <td className={`${TDB} text-left text-xs`} colSpan={6}>
               {record.supervisor || ''}
             </td>
-            <th className={`${TH} text-left`} colSpan={3}>
+            <th className={`${THB} text-left`} colSpan={3}>
               进出时间：
             </th>
-            <td className={`${TD} text-left text-xs`} colSpan={3}>
+            <td className={`${TDB} text-left text-xs`} colSpan={3}>
               {inOutText}
             </td>
           </tr>
