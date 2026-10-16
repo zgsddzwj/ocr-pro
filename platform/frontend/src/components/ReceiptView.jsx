@@ -9,7 +9,7 @@ const TDB = 'px-1 py-1 text-center';
 /**
  * 桌面/打印/PDF 共用的表格版版式：严格照纸质样单。
  * 共用 14 栏基础网格，各行的跨格都是它的整数分割，因此竖线贯穿所有行：
- *   顶部信息行 3|2|2|2|2|3 ／ 卖方 1|1|5|4|3 ／ 粮情 1|1|1|1|1|2|1|1|2|3 ／ 底部 1|2|1|5|2|3
+ *   顶部信息行 3|2|2|2|2|3 ／ 卖方 1|1|3|3|6 ／ 粮情 1|1|1|1|1|2|1|1|2|3 ／ 底部 1|2|1|5|2|3
  * 卖方与粮情两块均为「字段名一行、内容一行」。
  */
 function ReceiptSheet({ record }) {
@@ -55,30 +55,31 @@ function ReceiptSheet({ record }) {
             </td>
           </tr>
 
-          {/* 卖方：1 | 1 | 5 | 4 | 3 */}
+          {/* 卖方：1 | 1 | 3 | 3 | 6
+              身份证号 = 杂质霉变+毛重+皮重 ／ 地址 = 综合扣量+净重 ／ 联系电话 = 单价+市斤价+金额 */}
           <tr>
             <th className={TH}>产品名称</th>
             <th className={TH}>农户姓名</th>
-            <th className={TH} colSpan={5}>
+            <th className={TH} colSpan={3}>
               身份证号
             </th>
-            <th className={TH} colSpan={4}>
+            <th className={TH} colSpan={3}>
               地址
             </th>
-            <th className={TH} colSpan={3}>
+            <th className={TH} colSpan={6}>
               联系电话
             </th>
           </tr>
           <tr>
             <td className={TD}>{record.product}</td>
             <td className={`${TD} font-semibold`}>{record.farmerName}</td>
-            <td className={`${TD} whitespace-nowrap font-mono text-xs`} colSpan={5}>
+            <td className={`${TD} whitespace-nowrap font-mono text-xs`} colSpan={3}>
               {record.farmerIdNumber}
             </td>
-            <td className={`${TD} break-all text-left`} colSpan={4}>
+            <td className={`${TD} break-all text-left`} colSpan={3}>
               {record.farmerAddress}
             </td>
-            <td className={TD} colSpan={3}>
+            <td className={TD} colSpan={6}>
               {record.phone}
             </td>
           </tr>
