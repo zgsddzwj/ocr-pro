@@ -3,7 +3,10 @@ import { fmtAmount, fmtPrice, fmtWeight } from '../lib/format';
 const TH = 'border border-black bg-gray-100 px-1 py-1 text-center text-[12px] font-normal whitespace-nowrap';
 const TD = 'border border-black px-1 py-1 text-center';
 
-/** 桌面/打印/PDF 共用的表格版版式（严格对齐纸质样单，12 栏网格） */
+/**
+ * 桌面/打印/PDF 共用的表格版版式：严格照纸质样单。
+ * 24 栏网格；卖方与粮情两块均为「字段名一行、内容一行」；底部为 标签格 + 内容格。
+ */
 function ReceiptSheet({ record }) {
   const inOutText = record.weighInAt
     ? `${record.weighInAt}${record.weighOutAt ? ` / ${record.weighOutAt}` : ''}`
@@ -11,6 +14,7 @@ function ReceiptSheet({ record }) {
 
   return (
     <>
+      {/* 抬头两行无表格边框 */}
       <div className="text-center">
         {record.companyTitle ? (
           <div className="text-[22px] font-bold tracking-wide">{record.companyTitle}</div>
@@ -27,103 +31,161 @@ function ReceiptSheet({ record }) {
       <table className="mt-1 w-full table-fixed border-collapse">
         <tbody>
           <tr>
-            <th className={TH} colSpan={2}>
+            <th className={TH} colSpan={6}>
               单位：公斤；元
             </th>
-            <td className={TD} colSpan={2} />
-            <th className={TH}>日期：</th>
-            <td className={TD} colSpan={3}>
+            <td className={TD} colSpan={6} />
+            <th className={TH} colSpan={2}>
+              日期：
+            </th>
+            <td className={TD} colSpan={4}>
               {record.date}
             </td>
-            <th className={TH} colSpan={2}>
+            <th className={TH} colSpan={3}>
               检质证号：
             </th>
-            <td className={TD} colSpan={2}>
+            <td className={TD} colSpan={3}>
               {record.receiptNo}
             </td>
           </tr>
 
           <tr>
-            <th className={TH}>产品名称</th>
-            <td className={TD}>{record.product}</td>
-            <th className={TH}>农户姓名</th>
-            <td className={`${TD} font-semibold`}>{record.farmerName}</td>
-            <th className={TH}>身份证号</th>
-            <td className={`${TD} whitespace-nowrap font-mono text-[11px]`} colSpan={2}>
+            <th className={TH} colSpan={2}>
+              产品名称
+            </th>
+            <th className={TH} colSpan={2}>
+              农户姓名
+            </th>
+            <th className={TH} colSpan={7}>
+              身份证号
+            </th>
+            <th className={TH} colSpan={5}>
+              地址
+            </th>
+            <th className={TH} colSpan={8}>
+              联系电话
+            </th>
+          </tr>
+          <tr>
+            <td className={TD} colSpan={2}>
+              {record.product}
+            </td>
+            <td className={`${TD} font-semibold`} colSpan={2}>
+              {record.farmerName}
+            </td>
+            <td className={`${TD} whitespace-nowrap font-mono text-xs`} colSpan={7}>
               {record.farmerIdNumber}
             </td>
-            <th className={TH}>地址</th>
-            <td className={`${TD} break-all text-left`} colSpan={2}>
+            <td className={`${TD} break-all text-left`} colSpan={5}>
               {record.farmerAddress}
             </td>
-            <th className={TH}>联系电话</th>
-            <td className={TD}>{record.phone}</td>
+            <td className={TD} colSpan={8}>
+              {record.phone}
+            </td>
           </tr>
 
           <tr>
-            <th className={TH}>产品等级</th>
-            <th className={TH}>水分</th>
-            <th className={TH}>杂质霉变</th>
-            <th className={TH}>毛重</th>
-            <th className={TH}>皮重</th>
             <th className={TH} colSpan={2}>
+              产品等级
+            </th>
+            <th className={TH} colSpan={2}>
+              水分
+            </th>
+            <th className={TH} colSpan={2}>
+              杂质霉变
+            </th>
+            <th className={TH} colSpan={2}>
+              毛重
+            </th>
+            <th className={TH} colSpan={2}>
+              皮重
+            </th>
+            <th className={TH} colSpan={3}>
               综合扣量
             </th>
-            <th className={TH}>净重</th>
-            <th className={TH}>单价</th>
-            <th className={TH}>市斤价</th>
             <th className={TH} colSpan={2}>
+              净重
+            </th>
+            <th className={TH} colSpan={2}>
+              单价
+            </th>
+            <th className={TH} colSpan={2}>
+              市斤价
+            </th>
+            <th className={TH} colSpan={5}>
               金额
             </th>
           </tr>
           <tr>
-            <td className={TD}>{record.grade}</td>
-            <td className={TD}>{record.moisture}</td>
-            <td className={TD}>{record.impurity}</td>
-            <td className={TD}>{fmtWeight(record.gross)}</td>
-            <td className={TD}>{fmtWeight(record.tare)}</td>
             <td className={TD} colSpan={2}>
+              {record.grade}
+            </td>
+            <td className={TD} colSpan={2}>
+              {record.moisture}
+            </td>
+            <td className={TD} colSpan={2}>
+              {record.impurity}
+            </td>
+            <td className={TD} colSpan={2}>
+              {fmtWeight(record.gross)}
+            </td>
+            <td className={TD} colSpan={2}>
+              {fmtWeight(record.tare)}
+            </td>
+            <td className={TD} colSpan={3}>
               {fmtWeight(record.deductTotal)}
             </td>
-            <td className={`${TD} font-semibold`}>{fmtWeight(record.netWeight)}</td>
-            <td className={TD}>{fmtPrice(record.pricePerKg)}</td>
-            <td className={TD}>{fmtPrice(record.pricePerJin)}</td>
-            <td className={`${TD} font-bold`} colSpan={2}>
+            <td className={`${TD} font-semibold`} colSpan={2}>
+              {fmtWeight(record.netWeight)}
+            </td>
+            <td className={TD} colSpan={2}>
+              {fmtPrice(record.pricePerKg)}
+            </td>
+            <td className={TD} colSpan={2}>
+              {fmtPrice(record.pricePerJin)}
+            </td>
+            <td className={`${TD} font-bold`} colSpan={5}>
               {fmtAmount(record.grainAmount)}
             </td>
           </tr>
 
           <tr>
-            <th className={TH}>卸车货位</th>
-            <td className={TD} colSpan={2}>
+            <th className={TH} colSpan={2}>
+              卸车货位
+            </th>
+            <td className={TD} colSpan={6}>
               {record.unloadSpot}
             </td>
-            <th className={TH}>金额大写</th>
-            <td className={`${TD} text-left font-semibold`} colSpan={4}>
+            <th className={TH} colSpan={3}>
+              金额大写
+            </th>
+            <td className={`${TD} text-left font-semibold`} colSpan={7}>
               {record.amountCn || ''}
             </td>
-            <th className={TH}>银行账号</th>
+            <th className={TH} colSpan={3}>
+              银行账号
+            </th>
             <td className={`${TD} font-mono text-xs`} colSpan={3}>
               {record.bankCard}
             </td>
           </tr>
           <tr>
-            <th className={`${TH} text-left`} colSpan={2}>
+            <th className={`${TH} text-left`} colSpan={3}>
               化验员：
             </th>
-            <td className={`${TD} text-left text-xs`} colSpan={2}>
+            <td className={`${TD} text-left text-xs`} colSpan={6}>
               {record.checker || ''}
             </td>
-            <th className={`${TH} text-left`} colSpan={2}>
+            <th className={`${TH} text-left`} colSpan={3}>
               监管员：
             </th>
-            <td className={`${TD} text-left text-xs`} colSpan={2}>
+            <td className={`${TD} text-left text-xs`} colSpan={6}>
               {record.supervisor || ''}
             </td>
-            <th className={`${TH} text-left`} colSpan={2}>
+            <th className={`${TH} text-left`} colSpan={3}>
               进出时间：
             </th>
-            <td className={`${TD} text-left text-xs`} colSpan={2}>
+            <td className={`${TD} text-left text-xs`} colSpan={3}>
               {inOutText}
             </td>
           </tr>
@@ -155,7 +217,7 @@ function MSection({ title, children }) {
 }
 
 /**
- * 原粮收购统一凭证。桌面/打印 = 12 栏表格版（严格对齐纸质样单）；手机 = 同字段顺序的堆叠版。
+ * 原粮收购统一凭证。桌面/打印 = 24 栏表格版（严格对齐纸质样单）；手机 = 同字段顺序的堆叠版。
  * record: 后端 RecordOut；检质证号复用系统单据编号 receiptNo。
  * 离屏 .pdf-stage 常驻一份表格版，供「存为 PDF」用 html2canvas 截图导出。
  */
