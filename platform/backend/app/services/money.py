@@ -92,14 +92,20 @@ def amount_to_cn(amount) -> str:
 
 
 def compute_record(inputs: dict) -> dict:
-    """根据录入项计算派生字段，返回 rounded float + 大写。"""
+    """根据录入项计算派生字段，返回 rounded float + 大写。
+
+    扣量口径：新版单据只录「综合扣量」一项（deductTotal）；旧单据的
+    场地/水分/杂质/生霉四项扣量仍在库中，作为兼容回落使用。
+    """
     net_weight = dec(inputs.get("gross")) - dec(inputs.get("tare"))
-    deduct_total = (
-        dec(inputs.get("deductSite"))
-        + dec(inputs.get("deductMoisture"))
-        + dec(inputs.get("deductImpurity"))
-        + dec(inputs.get("deductMoldy"))
-    )
+    deduct_total = dec(inputs.get("deductTotal"))
+    if not deduct_total:
+        deduct_total = (
+            dec(inputs.get("deductSite"))
+            + dec(inputs.get("deductMoisture"))
+            + dec(inputs.get("deductImpurity"))
+            + dec(inputs.get("deductMoldy"))
+        )
     priced_weight = net_weight - deduct_total
     price_per_kg = dec(inputs.get("pricePerKg"))
     grain_amount = priced_weight * price_per_kg

@@ -30,6 +30,7 @@ FIELD_MAP = {
     "deductMoisture": "deduct_moisture",
     "deductImpurity": "deduct_impurity",
     "deductMoldy": "deduct_moldy",
+    "deductTotal": "deduct_total",
     "pricePerKg": "price_per_kg",
     "unloadFee": "unload_fee",
     "unloadSpot": "unload_spot",

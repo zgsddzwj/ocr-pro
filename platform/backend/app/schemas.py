@@ -66,6 +66,7 @@ class RecordIn(BaseModel):
     deductMoisture: float = 0.0
     deductImpurity: float = 0.0
     deductMoldy: float = 0.0
+    deductTotal: float = 0.0
     pricePerKg: float = 0.0
     unloadFee: float = 0.0
     unloadSpot: str = ""
@@ -99,6 +100,7 @@ class RecordPatch(BaseModel):
     deductMoisture: float | None = None
     deductImpurity: float | None = None
     deductMoldy: float | None = None
+    deductTotal: float | None = None
     pricePerKg: float | None = None
     unloadFee: float | None = None
     unloadSpot: str | None = None

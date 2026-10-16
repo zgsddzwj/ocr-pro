@@ -14,17 +14,23 @@ function fmtAmount(value) {
   return num(value).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+function fmtPrice(value) {
+  return num(value).toLocaleString('zh-CN', { maximumFractionDigits: 4 });
+}
+
 function today() {
   const now = new Date();
   const pad = (v) => String(v).padStart(2, '0');
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 }
 
-/** 开单联动计算：净重/扣量总重/计价净重/结算价款 */
+/** 开单联动计算：净重/市斤价/金额（口径与后端一致） */
 function computeForm(form) {
   const net = r3(num(form.gross) - num(form.tare));
+  // 新版单据只录「综合扣量」；旧单据的四项扣量作为兼容回落
   const deductTotal = r3(
-    num(form.deductSite) + num(form.deductMoisture) + num(form.deductImpurity) + num(form.deductMoldy),
+    num(form.deductTotal) ||
+      num(form.deductSite) + num(form.deductMoisture) + num(form.deductImpurity) + num(form.deductMoldy),
   );
   const priced = r3(net - deductTotal);
   const grain = r2(priced * num(form.pricePerKg));
@@ -33,6 +39,7 @@ function computeForm(form) {
     netWeight: net,
     deductTotal,
     pricedWeight: priced,
+    pricePerJin: r2((num(form.pricePerKg) / 2) * 10000) / 10000,
     grainAmount: grain,
     totalAmount: total,
   };
@@ -51,4 +58,4 @@ function isValidIdNumber(value) {
   return codes[sum % 11] === id[17];
 }
 
-module.exports = { fmtWeight, fmtAmount, today, computeForm, isValidIdNumber };
+module.exports = { fmtWeight, fmtAmount, fmtPrice, today, computeForm, isValidIdNumber };

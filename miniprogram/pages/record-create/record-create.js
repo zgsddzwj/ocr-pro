@@ -2,37 +2,26 @@ const api = require('../../utils/api');
 const calc = require('../../utils/calc');
 const icons = require('../../utils/icons');
 
-const NUMERIC_FIELDS = [
-  'moisture', 'impurity', 'moldy', 'gross', 'tare',
-  'deductSite', 'deductMoisture', 'deductImpurity', 'deductMoldy', 'pricePerKg', 'unloadFee',
-];
+const NUMERIC_FIELDS = ['moisture', 'impurity', 'gross', 'tare', 'deductTotal', 'pricePerKg'];
 
+// 字段与纸质样单一一对应：产品等级/水分/杂质霉变/毛重/皮重/综合扣量/单价/卸车货位/银行账号/联系电话/进出时间/化验员/监管员
 const EMPTY = {
   date: calc.today(),
   product: '玉米',
   grade: '',
-  vehicleNo: '',
   moisture: '',
   impurity: '',
-  moldy: '',
   gross: '',
   tare: '',
-  deductSite: '',
-  deductMoisture: '',
-  deductImpurity: '',
-  deductMoldy: '',
+  deductTotal: '',
   pricePerKg: '',
-  unloadFee: '',
   unloadSpot: '',
-  warehouse: '',
-  phone: '',
   bankCard: '',
-  bankName: '',
+  phone: '',
   weighInAt: '',
   weighOutAt: '',
   checker: '',
   supervisor: '',
-  note: '',
 };
 
 Page({
@@ -47,11 +36,9 @@ Page({
     manual: { name: '', idNumber: '', address: '' },
     form: EMPTY,
     computed: {
-      netWeightText: '0',
-      deductTotalText: '0',
       pricedWeightText: '0',
+      pricePerJinText: '0',
       grainAmountText: '0.00',
-      totalAmountText: '0.00',
     },
     overDeducted: false,
     showMore: false,
@@ -109,11 +96,9 @@ Page({
     const derived = calc.computeForm(form);
     this.setData({
       computed: {
-        netWeightText: calc.fmtWeight(derived.netWeight),
-        deductTotalText: calc.fmtWeight(derived.deductTotal),
         pricedWeightText: calc.fmtWeight(derived.pricedWeight),
+        pricePerJinText: calc.fmtPrice(derived.pricePerJin),
         grainAmountText: calc.fmtAmount(derived.grainAmount),
-        totalAmountText: calc.fmtAmount(derived.totalAmount),
       },
       overDeducted: derived.pricedWeight < 0,
     });

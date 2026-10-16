@@ -157,7 +157,7 @@ export default function Dashboard() {
               <span className="font-bold text-brand">{fmtAmount(record.totalAmount)} 元</span>
             </div>
             <div className="mt-1 text-xs text-gray-500">
-              {record.date} · {record.product} · 扣后净重 {fmtWeight(record.pricedWeight)} 公斤
+              {record.date} · {record.product} · 净重 {fmtWeight(record.pricedWeight)} 公斤
             </div>
           </div>
         ))}
@@ -177,10 +177,10 @@ export default function Dashboard() {
               <th className="px-4 py-3 font-medium">日期</th>
               <th className="px-4 py-3 font-medium">农户</th>
               <th className="px-4 py-3 font-medium">身份证号</th>
-              <th className="px-4 py-3 font-medium">品名</th>
+              <th className="px-4 py-3 font-medium">产品名称</th>
               <th className="px-4 py-3 text-right font-medium">毛重</th>
-              <th className="px-4 py-3 text-right font-medium">扣后净重</th>
-              <th className="px-4 py-3 text-right font-medium">结算金额</th>
+              <th className="px-4 py-3 text-right font-medium">净重</th>
+              <th className="px-4 py-3 text-right font-medium">金额</th>
               <th className="px-4 py-3 font-medium">状态</th>
             </tr>
           </thead>

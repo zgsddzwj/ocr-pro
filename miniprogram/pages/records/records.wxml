@@ -24,7 +24,7 @@
         <text class="name">{{item.farmerName}}</text>
         <text class="amount">{{item.amountText}} 元</text>
       </view>
-      <view class="row-sub">{{item.date}} · {{item.product}} · 扣后净重 {{item.weightText}} 公斤</view>
+      <view class="row-sub">{{item.date}} · {{item.product}} · 净重 {{item.weightText}} 公斤</view>
     </view>
 
     <view wx:if="{{!list.length}}" class="empty">还没有收购单，点下方「开新单」开始</view>

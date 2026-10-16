@@ -53,10 +53,26 @@
         </picker>
       </view>
       <view>
-        <view class="label">品名</view>
+        <view class="label">产品名称</view>
         <input class="input" value="{{form.product}}" data-k="product" bindinput="setField" />
       </view>
     </view>
+
+    <view class="grid3 gap-top">
+      <view>
+        <view class="label">产品等级</view>
+        <input class="input" value="{{form.grade}}" data-k="grade" bindinput="setField" placeholder="如：一等" placeholder-class="ph" />
+      </view>
+      <view>
+        <view class="label">水分%</view>
+        <input class="input" type="digit" value="{{form.moisture}}" data-k="moisture" bindinput="setField" placeholder="0" placeholder-class="ph" />
+      </view>
+      <view>
+        <view class="label">杂质霉变%</view>
+        <input class="input" type="digit" value="{{form.impurity}}" data-k="impurity" bindinput="setField" placeholder="0" placeholder-class="ph" />
+      </view>
+    </view>
+
     <view class="grid3 gap-top">
       <view>
         <view class="label">毛重（公斤）</view>
@@ -67,27 +83,31 @@
         <input class="input big" type="digit" value="{{form.tare}}" data-k="tare" bindinput="setField" placeholder="0" />
       </view>
       <view>
-        <view class="label">单价（元/公斤）</view>
-        <input class="input big" type="digit" value="{{form.pricePerKg}}" data-k="pricePerKg" bindinput="setField" placeholder="0" />
+        <view class="label">综合扣量（公斤）</view>
+        <input class="input big" type="digit" value="{{form.deductTotal}}" data-k="deductTotal" bindinput="setField" placeholder="0" />
       </view>
     </view>
 
     <view class="grid3 gap-top">
       <view>
-        <view class="label">水分%</view>
-        <input class="input" type="digit" value="{{form.moisture}}" data-k="moisture" bindinput="setField" placeholder="0" placeholder-class="ph" />
+        <view class="label">单价（元/公斤）</view>
+        <input class="input big" type="digit" value="{{form.pricePerKg}}" data-k="pricePerKg" bindinput="setField" placeholder="0" />
       </view>
       <view>
-        <view class="label">银行卡号</view>
-        <input class="input" type="number" value="{{form.bankCard}}" data-k="bankCard" bindinput="setField" placeholder="结算收款卡号" placeholder-class="ph" />
+        <view class="label">卸车货位</view>
+        <input class="input" value="{{form.unloadSpot}}" data-k="unloadSpot" bindinput="setField" placeholder="如：3号位" placeholder-class="ph" />
       </view>
       <view>
-        <view class="label">开户行</view>
-        <input class="input" value="{{form.bankName}}" data-k="bankName" bindinput="setField" placeholder="如：农业银行平原支行" placeholder-class="ph" />
+        <view class="label">银行账号</view>
+        <input class="input" type="number" value="{{form.bankCard}}" data-k="bankCard" bindinput="setField" placeholder="结算收款账号" placeholder-class="ph" />
       </view>
     </view>
 
-    <view class="grid2 gap-top">
+    <view class="grid3 gap-top">
+      <view>
+        <view class="label">联系电话</view>
+        <input class="input" type="number" value="{{form.phone}}" data-k="phone" bindinput="setField" placeholder="如：13800000000" placeholder-class="ph" />
+      </view>
       <view>
         <view class="label">毛检时间</view>
         <input class="input" value="{{form.weighInAt}}" data-k="weighInAt" bindinput="setField" placeholder="如：08:30" placeholder-class="ph" />
@@ -98,90 +118,38 @@
       </view>
     </view>
 
+    <view class="grid2 gap-top">
+      <view>
+        <view class="label">化验员</view>
+        <input class="input" value="{{form.checker}}" data-k="checker" bindinput="setField" />
+      </view>
+      <view>
+        <view class="label">监管员</view>
+        <input class="input" value="{{form.supervisor}}" data-k="supervisor" bindinput="setField" />
+      </view>
+    </view>
+
     <view class="computed">
       <view class="c-item">
-        <view class="c-label">扣前净重</view>
-        <view class="c-value">{{computed.netWeightText}}</view>
-      </view>
-      <view class="c-item">
-        <view class="c-label">扣量总重</view>
-        <view class="c-value">{{computed.deductTotalText}}</view>
-      </view>
-      <view class="c-item">
-        <view class="c-label">扣后净重</view>
+        <view class="c-label">净重</view>
         <view class="c-value brand">{{computed.pricedWeightText}}</view>
       </view>
       <view class="c-item">
-        <view class="c-label">粮食价款</view>
-        <view class="c-value brand">{{computed.grainAmountText}}</view>
+        <view class="c-label">市斤价</view>
+        <view class="c-value">{{computed.pricePerJinText}}</view>
       </view>
       <view class="c-item">
-        <view class="c-label">结算价款</view>
-        <view class="c-value brand">{{computed.totalAmountText}}</view>
+        <view class="c-label">金额</view>
+        <view class="c-value brand">{{computed.grainAmountText}}</view>
       </view>
     </view>
-    <view wx:if="{{overDeducted}}" class="warn">扣量合计已超过净重，请检查扣量数字</view>
-  </view>
-
-  <view class="card">
-    <view class="more-toggle" bindtap="toggleMore">
-      <view class="section-title inline">③ 更多选项 <text class="more-hint">扣量、化验数据、银行账户等，选填</text></view>
-      <text class="more-arrow">{{showMore ? '收起 ▲' : '展开 ▼'}}</text>
-    </view>
-
-    <block wx:if="{{showMore}}">
-      <view class="more-group">
-        <view class="group-title">扣量与化验</view>
-        <view class="field-grid">
-          <view class="field"><view class="label">卸车费（元）</view>
-            <input class="input" type="digit" value="{{form.unloadFee}}" data-k="unloadFee" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-          <view class="field"><view class="label">杂质%</view>
-            <input class="input" type="digit" value="{{form.impurity}}" data-k="impurity" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-          <view class="field"><view class="label">生霉粒%</view>
-            <input class="input" type="digit" value="{{form.moldy}}" data-k="moldy" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-          <view class="field"><view class="label">场地扣量</view>
-            <input class="input" type="digit" value="{{form.deductSite}}" data-k="deductSite" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-          <view class="field"><view class="label">水分扣量</view>
-            <input class="input" type="digit" value="{{form.deductMoisture}}" data-k="deductMoisture" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-          <view class="field"><view class="label">杂质扣量</view>
-            <input class="input" type="digit" value="{{form.deductImpurity}}" data-k="deductImpurity" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-          <view class="field"><view class="label">生霉扣量</view>
-            <input class="input" type="digit" value="{{form.deductMoldy}}" data-k="deductMoldy" bindinput="setField" placeholder="0" placeholder-class="ph" /></view>
-        </view>
-      </view>
-
-      <view class="more-group">
-        <view class="group-title">单据信息</view>
-        <view class="field-grid">
-          <view class="field"><view class="label">等级</view>
-            <input class="input" value="{{form.grade}}" data-k="grade" bindinput="setField" /></view>
-          <view class="field"><view class="label">车号</view>
-            <input class="input" value="{{form.vehicleNo}}" data-k="vehicleNo" bindinput="setField" /></view>
-          <view class="field"><view class="label">卸车货位</view>
-            <input class="input" value="{{form.unloadSpot}}" data-k="unloadSpot" bindinput="setField" /></view>
-          <view class="field"><view class="label">入库仓号</view>
-            <input class="input" value="{{form.warehouse}}" data-k="warehouse" bindinput="setField" /></view>
-          <view class="field"><view class="label">联系电话</view>
-            <input class="input" type="number" value="{{form.phone}}" data-k="phone" bindinput="setField" /></view>
-          <view class="field"><view class="label">化验员</view>
-            <input class="input" value="{{form.checker}}" data-k="checker" bindinput="setField" /></view>
-          <view class="field"><view class="label">监管员</view>
-            <input class="input" value="{{form.supervisor}}" data-k="supervisor" bindinput="setField" /></view>
-        </view>
-      </view>
-
-      <view class="more-group">
-        <view class="group-title">备注</view>
-        <textarea class="textarea" value="{{form.note}}" data-k="note" bindinput="setField"
-                  auto-height maxlength="100" placeholder="选填" placeholder-class="ph" />
-      </view>
-    </block>
+    <view wx:if="{{overDeducted}}" class="warn">综合扣量已超过毛重减皮重，请检查扣量数字</view>
   </view>
 
   <view class="save-bar">
     <view class="save-amount">
-      <text class="save-label">结算价款：</text>
-      <text class="save-value">{{computed.totalAmountText}}</text>
+      <text class="save-label">金额：</text>
+      <text class="save-value">{{computed.grainAmountText}}</text>
       <text class="save-hint">元（大写随单据生成）</text>
     </view>
     <button class="save-btn" loading="{{busy}}" bindtap="save">保存单据</button>

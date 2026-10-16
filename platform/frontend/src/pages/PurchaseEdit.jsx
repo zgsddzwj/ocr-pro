@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
-import { computeForm, fmtAmount, fmtWeight, today } from '../lib/format';
+import { computeForm, fmtAmount, fmtPrice, fmtWeight, today } from '../lib/format';
 
 const inputCls =
   'h-10 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20';
@@ -11,60 +11,27 @@ const labelCls = 'mb-1 block text-xs text-gray-500';
 const sectionCls = 'rounded-2xl bg-white p-5 shadow-sm';
 const sectionTitle = 'mb-4 text-sm font-bold text-ink';
 
+// 字段与纸质样单一一对应：产品等级/水分/杂质霉变/毛重/皮重/综合扣量/单价/卸车货位/银行账号/联系电话/进出时间/化验员/监管员
 const EMPTY = {
   date: today(),
   product: '玉米',
   grade: '',
-  vehicleNo: '',
   moisture: '',
   impurity: '',
-  moldy: '',
   gross: '',
   tare: '',
-  deductSite: '',
-  deductMoisture: '',
-  deductImpurity: '',
-  deductMoldy: '',
+  deductTotal: '',
   pricePerKg: '',
-  unloadFee: '',
   unloadSpot: '',
-  warehouse: '',
-  bankName: '',
   bankCard: '',
   phone: '',
   weighInAt: '',
   weighOutAt: '',
   checker: '',
-  weigher: '',
-  manager: '',
   supervisor: '',
-  payer: '',
-  note: '',
 };
 
-// 「更多选项」里的字段定义：[key, label, placeholder]
-const MORE_NUMERIC = [
-  ['unloadFee', '卸车费（元）'],
-  ['impurity', '杂质%'],
-  ['moldy', '生霉粒%'],
-  ['deductSite', '场地扣量'],
-  ['deductMoisture', '水分扣量'],
-  ['deductImpurity', '杂质扣量'],
-  ['deductMoldy', '生霉扣量'],
-];
-
-const MORE_TEXT = [
-  ['grade', '等级'],
-  ['vehicleNo', '车号'],
-  ['unloadSpot', '卸车货位'],
-  ['warehouse', '入库仓号'],
-  ['phone', '联系电话'],
-  ['checker', '化验员'],
-  ['weigher', '检斤员'],
-  ['manager', '管理员'],
-  ['supervisor', '监管员'],
-  ['payer', '付款员'],
-];
+const NUMERIC_KEYS = ['moisture', 'impurity', 'gross', 'tare', 'deductTotal', 'pricePerKg'];
 
 export default function PurchaseEdit() {
   const navigate = useNavigate();
@@ -79,7 +46,6 @@ export default function PurchaseEdit() {
   const [form, setForm] = useState(EMPTY);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
-  const [showMore, setShowMore] = useState(false);
   const searchTimer = useRef(null);
 
   useEffect(() => {
@@ -154,19 +120,7 @@ export default function PurchaseEdit() {
         farmerId = created.farmer.id;
       }
       const payload = { farmerId, ...form };
-      [
-        'moisture',
-        'impurity',
-        'moldy',
-        'gross',
-        'tare',
-        'deductSite',
-        'deductMoisture',
-        'deductImpurity',
-        'deductMoldy',
-        'pricePerKg',
-        'unloadFee',
-      ].forEach((key) => {
+      NUMERIC_KEYS.forEach((key) => {
         payload[key] = Number(payload[key]) || 0;
       });
       const record = await api.post('/api/records', payload);
@@ -184,16 +138,17 @@ export default function PurchaseEdit() {
     </div>
   );
 
-  const numField = (key, label) => (
+  const numField = (key, label, { big, step } = {}) => (
     <div>
       <label className={labelCls}>{label}</label>
       <input
         type="number"
         inputMode="decimal"
-        step="0.001"
+        step={step || '0.001'}
         value={form[key]}
         onChange={setField(key)}
-        className={inputCls}
+        placeholder="0"
+        className={big ? inputBigCls : inputCls}
       />
     </div>
   );
@@ -276,7 +231,7 @@ export default function PurchaseEdit() {
         )}
       </div>
 
-      {/* ② 收购信息（必填） */}
+      {/* ② 收购信息（字段与凭证一致） */}
       <div className={sectionCls}>
         <div className={sectionTitle}>② 收购信息</div>
         <div className="grid grid-cols-2 gap-3">
@@ -285,153 +240,65 @@ export default function PurchaseEdit() {
             <input type="date" value={form.date} onChange={setField('date')} className={inputCls} />
           </div>
           <div>
-            <label className={labelCls}>品名</label>
+            <label className={labelCls}>产品名称</label>
             <input value={form.product} onChange={setField('product')} className={inputCls} />
           </div>
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-3">
-          <div>
-            <label className={labelCls}>毛重（公斤）</label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step="0.001"
-              value={form.gross}
-              onChange={setField('gross')}
-              placeholder="0"
-              className={inputBigCls}
-            />
-          </div>
-          <div>
-            <label className={labelCls}>皮重（公斤）</label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step="0.001"
-              value={form.tare}
-              onChange={setField('tare')}
-              placeholder="0"
-              className={inputBigCls}
-            />
-          </div>
-          <div>
-            <label className={labelCls}>单价（元/公斤）</label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step="0.0001"
-              value={form.pricePerKg}
-              onChange={setField('pricePerKg')}
-              placeholder="0"
-              className={inputBigCls}
-            />
-          </div>
+          {textField('grade', '产品等级', '如：一等')}
+          {numField('moisture', '水分%', { step: '0.1' })}
+          {numField('impurity', '杂质霉变%', { step: '0.1' })}
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-3">
-          <div>
-            <label className={labelCls}>水分%</label>
-            <input
-              type="number"
-              inputMode="decimal"
-              step="0.1"
-              value={form.moisture}
-              onChange={setField('moisture')}
-              placeholder="0"
-              className={inputCls}
-            />
-          </div>
-          {textField('bankCard', '银行卡号', '结算收款卡号')}
-          {textField('bankName', '开户行', '如：农业银行平原支行')}
+          {numField('gross', '毛重（公斤）', { big: true })}
+          {numField('tare', '皮重（公斤）', { big: true })}
+          {numField('deductTotal', '综合扣量（公斤）', { big: true })}
         </div>
 
-        <div className="mt-3 grid grid-cols-2 gap-3">
+        <div className="mt-3 grid grid-cols-3 gap-3">
+          {numField('pricePerKg', '单价（元/公斤）', { big: true, step: '0.0001' })}
+          {textField('unloadSpot', '卸车货位', '如：3号位')}
+          {textField('bankCard', '银行账号', '结算收款账号')}
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-3">
+          {textField('phone', '联系电话', '如：13800000000')}
           {textField('weighInAt', '毛检时间', '如：08:30')}
           {textField('weighOutAt', '皮检时间', '如：09:10')}
         </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl bg-brand-light px-4 py-3 text-sm md:grid-cols-5">
+        <div className="mt-3 grid grid-cols-3 gap-3">
+          {textField('checker', '化验员', '')}
+          {textField('supervisor', '监管员', '')}
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl bg-brand-light px-4 py-3 text-sm">
           <div>
-            <span className="text-xs text-gray-500">扣前净重</span>
-            <div className="font-bold">{fmtWeight(derived.netWeight)}</div>
-          </div>
-          <div>
-            <span className="text-xs text-gray-500">扣量总重</span>
-            <div className="font-bold">{fmtWeight(derived.deductTotal)}</div>
-          </div>
-          <div>
-            <span className="text-xs text-gray-500">扣后净重</span>
+            <span className="text-xs text-gray-500">净重</span>
             <div className={`font-bold ${overDeducted ? 'text-red-600' : 'text-brand'}`}>
               {fmtWeight(derived.pricedWeight)}
             </div>
           </div>
           <div>
-            <span className="text-xs text-gray-500">粮食价款</span>
+            <span className="text-xs text-gray-500">市斤价</span>
+            <div className="font-bold">{fmtPrice(derived.pricePerJin)}</div>
+          </div>
+          <div>
+            <span className="text-xs text-gray-500">金额</span>
             <div className={`font-bold ${overDeducted ? 'text-red-600' : 'text-brand'}`}>
               {fmtAmount(derived.grainAmount)}
             </div>
           </div>
-          <div>
-            <span className="text-xs text-gray-500">结算价款</span>
-            <div className={`font-bold ${overDeducted ? 'text-red-600' : 'text-brand'}`}>
-              {fmtAmount(derived.totalAmount)}
-            </div>
-          </div>
         </div>
-        {overDeducted ? (
-          <p className="mt-2 text-xs text-red-600">扣量合计已超过扣前净重，请检查扣量数字</p>
-        ) : null}
-      </div>
-
-      {/* ③ 更多选项（选填，默认收起） */}
-      <div className={sectionCls}>
-        <button
-          type="button"
-          onClick={() => setShowMore(!showMore)}
-          className="flex w-full items-center justify-between"
-        >
-          <span className="text-sm font-bold text-ink">
-            ③ 更多选项
-            <span className="ml-2 text-xs font-normal text-gray-400">
-              扣量、杂质/生霉粒、等级车号、人员签字、备注等，选填
-            </span>
-          </span>
-          <span className="shrink-0 text-xs text-brand">{showMore ? '收起 ▲' : '展开 ▼'}</span>
-        </button>
-
-        {showMore ? (
-          <div className="mt-5 space-y-5 border-t border-gray-100 pt-5">
-            <div>
-              <div className="mb-3 text-xs text-gray-400">扣量与化验</div>
-              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                {MORE_NUMERIC.map(([key, label]) => (
-                  <div key={key}>{numField(key, label)}</div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-3 text-xs text-gray-400">单据信息</div>
-              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                {MORE_TEXT.map(([key, label]) => (
-                  <div key={key}>{textField(key, label)}</div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-3 text-xs text-gray-400">备注</div>
-              {textField('note', '备注')}
-            </div>
-          </div>
-        ) : null}
+        {overDeducted ? <p className="mt-2 text-xs text-red-600">综合扣量已超过毛重减皮重，请检查扣量数字</p> : null}
       </div>
 
       <div className="sticky bottom-4 z-10 space-y-3 rounded-2xl bg-white p-4 shadow-lg sm:flex sm:items-center sm:justify-between sm:space-y-0 sm:px-5 sm:py-3">
         <div className="text-sm text-gray-600">
-          结算价款：
-          <span className="ml-1 text-xl font-bold text-brand">{fmtAmount(derived.totalAmount)}</span>
+          金额：
+          <span className="ml-1 text-xl font-bold text-brand">{fmtAmount(derived.grainAmount)}</span>
           <span className="ml-1 text-xs text-gray-400">（大写随单据自动生成）</span>
         </div>
         <button

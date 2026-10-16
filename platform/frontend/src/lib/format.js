@@ -32,8 +32,10 @@ const r2 = (v) => Math.round((v + Number.EPSILON) * 100) / 100;
 export function computeForm(form) {
   const num = (v) => Number(v) || 0;
   const net = r3(num(form.gross) - num(form.tare));
+  // 新版单据只录「综合扣量」；旧单据的四项扣量作为兼容回落
   const deductTotal = r3(
-    num(form.deductSite) + num(form.deductMoisture) + num(form.deductImpurity) + num(form.deductMoldy),
+    num(form.deductTotal) ||
+      num(form.deductSite) + num(form.deductMoisture) + num(form.deductImpurity) + num(form.deductMoldy),
   );
   const priced = r3(net - deductTotal);
   const grain = r2(priced * num(form.pricePerKg));

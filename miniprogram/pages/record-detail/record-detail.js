@@ -20,31 +20,26 @@ Page({
   },
 
   decorate(record) {
+    // 杂质霉变：新版只录一个值（存 impurity），旧单据的杂质+生霉粒合并显示
+    const impurityMoldy = (Number(record.impurity) || 0) + (Number(record.moldy) || 0);
     const weightRows = [
       ['产品名称', record.product],
-      ['等级', record.grade],
-      ['车号', record.vehicleNo],
+      ['产品等级', record.grade],
+      ['水分%', record.moisture],
+      ['杂质霉变%', impurityMoldy ? String(Number(impurityMoldy.toFixed(3))) : ''],
       ['毛重（公斤）', calc.fmtWeight(record.gross)],
       ['皮重（公斤）', calc.fmtWeight(record.tare)],
-      ['扣前净重（公斤）', calc.fmtWeight(record.netWeight)],
-      ['水分%', record.moisture],
-      ['杂质%', record.impurity],
-      ['生霉粒%', record.moldy],
-      ['扣量总重（公斤）', calc.fmtWeight(record.deductTotal)],
-      ['扣后净重（公斤）', calc.fmtWeight(record.pricedWeight)],
+      ['综合扣量（公斤）', calc.fmtWeight(record.deductTotal)],
+      ['净重（公斤）', calc.fmtWeight(record.pricedWeight)],
     ];
     const settleRows = [
-      ['单价（元/公斤）', calc.fmtWeight(record.pricePerKg)],
-      ['市斤价', calc.fmtWeight(record.pricePerJin)],
-      ['粮食价款（元）', calc.fmtAmount(record.grainAmount)],
-      ['卸车费（元）', calc.fmtAmount(record.unloadFee)],
-      ['结算价款（元）', calc.fmtAmount(record.totalAmount)],
-      ['大写金额', record.amountCn],
-      ['入库仓号', record.warehouse],
+      ['单价（元/公斤）', calc.fmtPrice(record.pricePerKg)],
+      ['市斤价', calc.fmtPrice(record.pricePerJin)],
+      ['金额（元）', calc.fmtAmount(record.grainAmount)],
+      ['金额大写', record.amountCn],
       ['卸车货位', record.unloadSpot],
+      ['银行账号', record.bankCard],
       ['联系电话', record.phone],
-      ['银行卡号', record.bankCard],
-      ['开户行', record.bankName],
       [
         '进出时间',
         record.weighInAt
@@ -53,7 +48,6 @@ Page({
       ],
       ['化验员', record.checker],
       ['监管员', record.supervisor],
-      ['备注', record.note],
     ];
     return {
       ...record,
@@ -87,12 +81,13 @@ Page({
       `姓名：${r.farmerName}`,
       `身份证号：${r.farmerIdNumber}`,
       `住址：${r.farmerAddress}`,
-      `品名：${r.product}`,
+      `产品名称：${r.product}`,
       `毛重：${calc.fmtWeight(r.gross)} 公斤`,
       `皮重：${calc.fmtWeight(r.tare)} 公斤`,
-      `扣后净重：${calc.fmtWeight(r.pricedWeight)} 公斤`,
+      `综合扣量：${calc.fmtWeight(r.deductTotal)} 公斤`,
+      `净重：${calc.fmtWeight(r.pricedWeight)} 公斤`,
       `单价：${r.pricePerKg} 元/公斤`,
-      `结算价款：${calc.fmtAmount(r.totalAmount)} 元`,
+      `金额：${calc.fmtAmount(r.grainAmount)} 元`,
     ].join('\n');
     wx.setClipboardData({ data: text, success: () => wx.showToast({ title: '已复制', icon: 'success' }) });
   },
