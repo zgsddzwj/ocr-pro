@@ -6,6 +6,13 @@ const TD = 'border border-black px-1 py-1 text-center';
 const THB = 'px-1 py-1 text-[12px] font-normal whitespace-nowrap';
 const TDB = 'px-1 py-1';
 
+/** 2026-10-16 → 2026 年 10 月 16 日（凭证按纸面用中文日期） */
+function fmtDateCn(value) {
+  const matched = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!matched) return value || '';
+  return `${matched[1]} 年 ${Number(matched[2])} 月 ${Number(matched[3])} 日`;
+}
+
 /**
  * 桌面/打印/PDF 共用的表格版版式：严格照纸质样单。
  * 共用 13 栏基础网格，各行的跨格都是它的整数分割，因此竖线贯穿所有行：
@@ -45,7 +52,7 @@ function ReceiptSheet({ record }) {
             </th>
             <td className={TDB} colSpan={2} />
             <th className={`${THB} text-right`} colSpan={4}>
-              日期：{record.date}
+              日期：{fmtDateCn(record.date)}
             </th>
             <th className={`${THB} text-right`} colSpan={5}>
               检质证号：{record.receiptNo}
@@ -202,7 +209,7 @@ export default function ReceiptView({ record }) {
 
         <div className="mt-2 flex justify-between text-xs text-gray-600">
           <span>单位：公斤；元</span>
-          <span>日期：{record.date}</span>
+          <span>日期：{fmtDateCn(record.date)}</span>
         </div>
         <div className="mt-1 text-xs text-gray-600">检质证号：{record.receiptNo}</div>
 
