@@ -94,30 +94,19 @@ def amount_to_cn(amount) -> str:
 def compute_record(inputs: dict) -> dict:
     """根据录入项计算派生字段，返回 rounded float + 大写。
 
-    扣量口径：新版单据只录「综合扣量」一项（deductTotal）；旧单据的
-    场地/水分/杂质/生霉四项扣量仍在库中，作为兼容回落使用。
+    口径：净重 = 毛重 − 皮重 − 综合扣量；金额 = 净重 × 单价；市斤价 = 单价 ÷ 2。
     """
-    net_weight = dec(inputs.get("gross")) - dec(inputs.get("tare"))
+    net_weight = (
+        dec(inputs.get("gross")) - dec(inputs.get("tare")) - dec(inputs.get("deductTotal"))
+    )
     deduct_total = dec(inputs.get("deductTotal"))
-    if not deduct_total:
-        deduct_total = (
-            dec(inputs.get("deductSite"))
-            + dec(inputs.get("deductMoisture"))
-            + dec(inputs.get("deductImpurity"))
-            + dec(inputs.get("deductMoldy"))
-        )
-    priced_weight = net_weight - deduct_total
     price_per_kg = dec(inputs.get("pricePerKg"))
-    grain_amount = priced_weight * price_per_kg
-    unload_fee = dec(inputs.get("unloadFee"))
-    total_amount = grain_amount - unload_fee
+    grain_amount = net_weight * price_per_kg
 
     return {
         "netWeight": quantize(net_weight, 3),
         "deductTotal": quantize(deduct_total, 3),
-        "pricedWeight": quantize(priced_weight, 3),
         "pricePerJin": quantize(price_per_kg / 2, 4),
         "grainAmount": quantize(grain_amount, 2),
-        "totalAmount": quantize(total_amount, 2),
-        "amountCn": amount_to_cn(total_amount),
+        "amountCn": amount_to_cn(grain_amount),
     }

@@ -113,36 +113,30 @@ def test_farmer_submit_idempotent_and_records_flow(client):
         "farmerId": farmer_id,
         "date": date.today().isoformat(),
         "product": "玉米",
-        "vehicleNo": "京A12345",
         "grade": "2",
         "moisture": 16.0,
         "impurity": 0.0,
-        "moldy": 0.0,
         "gross": 4918,
         "tare": 1858,
-        "deductSite": 0,
-        "deductMoisture": 130,
-        "deductImpurity": 0,
-        "deductMoldy": 0,
+        "deductTotal": 130,
         "pricePerKg": 2.36,
-        "unloadFee": 0,
-        "warehouse": "1号仓",
-        "weigher": "王检查",
+        "unloadSpot": "3号位",
+        "checker": "王检查",
     }
     created = client.post("/api/records", json=record)
     assert created.status_code == 200
     record_body = created.json()
     assert record_body["receiptNo"] == date.today().strftime("%Y%m%d") + "001"
     assert record_body["pricePerKg"] == 2.36
-    assert record_body["netWeight"] == 3060
-    assert record_body["pricedWeight"] == 2930
-    assert record_body["totalAmount"] == 6914.8
+    assert record_body["netWeight"] == 2930
+    assert record_body["deductTotal"] == 130
+    assert record_body["grainAmount"] == 6914.8
     assert record_body["status"] == "draft"
 
     record_id = record_body["id"]
     updated = client.put(f"/api/records/{record_id}", json={"pricePerKg": 2.4})
     assert updated.status_code == 200
-    assert updated.json()["totalAmount"] == 7032.0
+    assert updated.json()["grainAmount"] == 7032.0
 
     confirmed = client.post(f"/api/records/{record_id}/confirm")
     assert confirmed.status_code == 200 and confirmed.json()["status"] == "confirmed"
@@ -175,7 +169,7 @@ def test_export_excel(auth_client):
             "product": "玉米",
             "gross": 4918,
             "tare": 1858,
-            "deductMoisture": 130,
+            "deductTotal": 130,
             "pricePerKg": 2.36,
         },
     )
@@ -199,7 +193,7 @@ def test_export_excel(auth_client):
     assert sheet.cell(row=2, column=1).value == first.json()["receiptNo"]
     assert sheet.cell(row=3, column=1).value == second.json()["receiptNo"]
     assert sheet.cell(row=4, column=1).value == "合计（不含作废，共 2 张）"
-    assert abs(sheet.cell(row=4, column=26).value - 7514.8) < 0.001
+    assert abs(sheet.cell(row=4, column=17).value - 7514.8) < 0.001
 
     summary = workbook["汇总统计"]
     assert summary["A1"].value == "收购统计汇总"

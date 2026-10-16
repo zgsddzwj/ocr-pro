@@ -26,22 +26,14 @@ function today() {
 
 /** 开单联动计算：净重/市斤价/金额（口径与后端一致） */
 function computeForm(form) {
-  const net = r3(num(form.gross) - num(form.tare));
-  // 新版单据只录「综合扣量」；旧单据的四项扣量作为兼容回落
-  const deductTotal = r3(
-    num(form.deductTotal) ||
-      num(form.deductSite) + num(form.deductMoisture) + num(form.deductImpurity) + num(form.deductMoldy),
-  );
-  const priced = r3(net - deductTotal);
-  const grain = r2(priced * num(form.pricePerKg));
-  const total = r2(grain - num(form.unloadFee));
+  // 净重 = 毛重 − 皮重 − 综合扣量；金额 = 净重 × 单价
+  const net = r3(num(form.gross) - num(form.tare) - num(form.deductTotal));
+  const grain = r2(net * num(form.pricePerKg));
   return {
     netWeight: net,
-    deductTotal,
-    pricedWeight: priced,
+    deductTotal: r3(num(form.deductTotal)),
     pricePerJin: r2((num(form.pricePerKg) / 2) * 10000) / 10000,
     grainAmount: grain,
-    totalAmount: total,
   };
 }
 

@@ -40,8 +40,8 @@ Page({
       const list = records.items.map((item) => ({
         ...item,
         statusText: STATUS[item.status] || item.status,
-        amountText: calc.fmtAmount(item.totalAmount),
-        weightText: calc.fmtWeight(item.pricedWeight),
+        amountText: calc.fmtAmount(item.grainAmount),
+        weightText: calc.fmtWeight(item.netWeight),
       }));
       this.setData({
         stats: [

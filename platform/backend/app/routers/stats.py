@@ -14,8 +14,8 @@ router = APIRouter(prefix="/api/stats", tags=["stats"])
 
 def _summarize(records) -> dict:
     count = len(records)
-    weight_kg = sum(record.priced_weight for record in records)
-    amount = sum(record.total_amount for record in records)
+    weight_kg = sum(record.net_weight for record in records)
+    amount = sum(record.grain_amount for record in records)
     return {
         "count": count,
         "tons": round(weight_kg / 1000, 3),

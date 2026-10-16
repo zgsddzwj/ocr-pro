@@ -3,14 +3,6 @@ import { fmtAmount, fmtPrice, fmtWeight } from '../lib/format';
 const TH = 'border border-black bg-gray-100 px-1 py-1 text-center text-[12px] font-normal whitespace-nowrap';
 const TD = 'border border-black px-1 py-1 text-center';
 
-/** 杂质霉变：新版只录一个值（存 impurity），旧单据的杂质+生霉粒合并显示 */
-function impurityMoldy(record) {
-  const impurity = Number(record.impurity) || 0;
-  const moldy = Number(record.moldy) || 0;
-  const merged = impurity + moldy;
-  return merged ? String(Number(merged.toFixed(3))) : '';
-}
-
 /** 桌面/打印/PDF 共用的表格版版式（严格对齐纸质样单，12 栏网格） */
 function ReceiptSheet({ record }) {
   const inOutText = record.weighInAt
@@ -87,13 +79,13 @@ function ReceiptSheet({ record }) {
           <tr>
             <td className={TD}>{record.grade}</td>
             <td className={TD}>{record.moisture}</td>
-            <td className={TD}>{impurityMoldy(record)}</td>
+            <td className={TD}>{record.impurity}</td>
             <td className={TD}>{fmtWeight(record.gross)}</td>
             <td className={TD}>{fmtWeight(record.tare)}</td>
             <td className={TD} colSpan={2}>
               {fmtWeight(record.deductTotal)}
             </td>
-            <td className={`${TD} font-semibold`}>{fmtWeight(record.pricedWeight)}</td>
+            <td className={`${TD} font-semibold`}>{fmtWeight(record.netWeight)}</td>
             <td className={TD}>{fmtPrice(record.pricePerKg)}</td>
             <td className={TD}>{fmtPrice(record.pricePerJin)}</td>
             <td className={`${TD} font-bold`} colSpan={2}>
@@ -213,12 +205,12 @@ export default function ReceiptView({ record }) {
           <div className="grid grid-cols-2 gap-x-4">
             <MRow label="产品等级" value={record.grade} />
             <MRow label="水分" value={record.moisture} />
-            <MRow label="杂质霉变" value={impurityMoldy(record)} />
+            <MRow label="杂质霉变" value={record.impurity} />
             <MRow label="毛重" value={fmtWeight(record.gross)} />
             <MRow label="皮重" value={fmtWeight(record.tare)} />
             <MRow label="综合扣量" value={fmtWeight(record.deductTotal)} />
           </div>
-          <MRow label="净重" value={fmtWeight(record.pricedWeight)} strong />
+          <MRow label="净重" value={fmtWeight(record.netWeight)} strong />
           <div className="grid grid-cols-2 gap-x-4">
             <MRow label="单价" value={fmtPrice(record.pricePerKg)} />
             <MRow label="市斤价" value={fmtPrice(record.pricePerJin)} />

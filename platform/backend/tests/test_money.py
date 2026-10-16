@@ -45,39 +45,17 @@ def test_amount_to_cn(amount, expected):
 
 
 def test_compute_record_matches_voucher():
-    """图一样例口径：毛重4918 皮重1858 水分扣130 → 扣后2930 × 2.36。"""
+    """样单口径：毛重4918 皮重1858 综合扣量130 → 净重2930 × 2.36。"""
     result = compute_record(
-        {
-            "gross": 4918,
-            "tare": 1858,
-            "deductSite": 0,
-            "deductMoisture": 130,
-            "deductImpurity": 0,
-            "deductMoldy": 0,
-            "pricePerKg": 2.36,
-            "unloadFee": 0,
-        }
+        {"gross": 4918, "tare": 1858, "deductTotal": 130, "pricePerKg": 2.36}
     )
-    assert result["netWeight"] == 3060
+    assert result["netWeight"] == 2930
     assert result["deductTotal"] == 130
-    assert result["pricedWeight"] == 2930
     assert result["pricePerJin"] == 1.18
     assert result["grainAmount"] == 6914.8
-    assert result["totalAmount"] == 6914.8
     assert result["amountCn"] == "陆仟玖佰壹拾肆圆捌角"
 
 
 def test_compute_record_rounding_half_up():
-    result = compute_record(
-        {
-            "gross": 1000,
-            "tare": 0,
-            "deductSite": 0,
-            "deductMoisture": 0,
-            "deductImpurity": 0,
-            "deductMoldy": 0,
-            "pricePerKg": 2.675,
-            "unloadFee": 0,
-        }
-    )
+    result = compute_record({"gross": 1000, "pricePerKg": 2.675})
     assert result["grainAmount"] == 2675.0

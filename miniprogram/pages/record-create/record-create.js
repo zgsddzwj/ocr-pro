@@ -36,7 +36,7 @@ Page({
     manual: { name: '', idNumber: '', address: '' },
     form: EMPTY,
     computed: {
-      pricedWeightText: '0',
+      netWeightText: '0',
       pricePerJinText: '0',
       grainAmountText: '0.00',
     },
@@ -96,11 +96,11 @@ Page({
     const derived = calc.computeForm(form);
     this.setData({
       computed: {
-        pricedWeightText: calc.fmtWeight(derived.pricedWeight),
+        netWeightText: calc.fmtWeight(derived.netWeight),
         pricePerJinText: calc.fmtPrice(derived.pricePerJin),
         grainAmountText: calc.fmtAmount(derived.grainAmount),
       },
-      overDeducted: derived.pricedWeight < 0,
+      overDeducted: derived.netWeight < 0,
     });
   },
 

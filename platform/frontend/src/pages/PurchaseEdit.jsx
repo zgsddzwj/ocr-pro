@@ -81,7 +81,7 @@ export default function PurchaseEdit() {
   }, [farmerQuery]);
 
   const derived = useMemo(() => computeForm(form), [form]);
-  const overDeducted = derived.pricedWeight < 0;
+  const overDeducted = derived.netWeight < 0;
 
   const pickFarmer = (item) => {
     setFarmer(item);
@@ -278,7 +278,7 @@ export default function PurchaseEdit() {
           <div>
             <span className="text-xs text-gray-500">净重</span>
             <div className={`font-bold ${overDeducted ? 'text-red-600' : 'text-brand'}`}>
-              {fmtWeight(derived.pricedWeight)}
+              {fmtWeight(derived.netWeight)}
             </div>
           </div>
           <div>

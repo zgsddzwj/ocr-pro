@@ -20,17 +20,15 @@ Page({
   },
 
   decorate(record) {
-    // 杂质霉变：新版只录一个值（存 impurity），旧单据的杂质+生霉粒合并显示
-    const impurityMoldy = (Number(record.impurity) || 0) + (Number(record.moldy) || 0);
     const weightRows = [
       ['产品名称', record.product],
       ['产品等级', record.grade],
       ['水分%', record.moisture],
-      ['杂质霉变%', impurityMoldy ? String(Number(impurityMoldy.toFixed(3))) : ''],
+      ['杂质霉变%', record.impurity],
       ['毛重（公斤）', calc.fmtWeight(record.gross)],
       ['皮重（公斤）', calc.fmtWeight(record.tare)],
       ['综合扣量（公斤）', calc.fmtWeight(record.deductTotal)],
-      ['净重（公斤）', calc.fmtWeight(record.pricedWeight)],
+      ['净重（公斤）', calc.fmtWeight(record.netWeight)],
     ];
     const settleRows = [
       ['单价（元/公斤）', calc.fmtPrice(record.pricePerKg)],
@@ -85,7 +83,7 @@ Page({
       `毛重：${calc.fmtWeight(r.gross)} 公斤`,
       `皮重：${calc.fmtWeight(r.tare)} 公斤`,
       `综合扣量：${calc.fmtWeight(r.deductTotal)} 公斤`,
-      `净重：${calc.fmtWeight(r.pricedWeight)} 公斤`,
+      `净重：${calc.fmtWeight(r.netWeight)} 公斤`,
       `单价：${r.pricePerKg} 元/公斤`,
       `金额：${calc.fmtAmount(r.grainAmount)} 元`,
     ].join('\n');

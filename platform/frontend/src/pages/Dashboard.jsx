@@ -154,10 +154,10 @@ export default function Dashboard() {
             </div>
             <div className="mt-1.5 flex items-baseline justify-between gap-3">
               <span className="font-semibold">{record.farmerName}</span>
-              <span className="font-bold text-brand">{fmtAmount(record.totalAmount)} 元</span>
+              <span className="font-bold text-brand">{fmtAmount(record.grainAmount)} 元</span>
             </div>
             <div className="mt-1 text-xs text-gray-500">
-              {record.date} · {record.product} · 净重 {fmtWeight(record.pricedWeight)} 公斤
+              {record.date} · {record.product} · 净重 {fmtWeight(record.netWeight)} 公斤
             </div>
           </div>
         ))}
@@ -197,8 +197,8 @@ export default function Dashboard() {
                 <td className="px-4 py-3 font-mono text-xs text-gray-500">{maskIdNumber(record.farmerIdNumber)}</td>
                 <td className="px-4 py-3">{record.product}</td>
                 <td className="px-4 py-3 text-right">{fmtWeight(record.gross)}</td>
-                <td className="px-4 py-3 text-right">{fmtWeight(record.pricedWeight)}</td>
-                <td className="px-4 py-3 text-right font-semibold">{fmtAmount(record.totalAmount)}</td>
+                <td className="px-4 py-3 text-right">{fmtWeight(record.netWeight)}</td>
+                <td className="px-4 py-3 text-right font-semibold">{fmtAmount(record.grainAmount)}</td>
                 <td className="px-4 py-3">
                   <span className={`rounded-full px-2.5 py-1 text-xs ${STATUS[record.status]?.cls}`}>
                     {STATUS[record.status]?.label || record.status}

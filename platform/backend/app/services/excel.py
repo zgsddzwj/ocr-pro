@@ -11,54 +11,47 @@ from ..models import Farmer, PurchaseRecord
 STATUS_TEXT = {'draft': '草稿', 'confirmed': '已确认', 'void': '已作废'}
 
 DETAIL_HEADERS = [
-    '编号', '日期', '状态', '农户姓名', '身份证号', '住址', '品名', '等级', '车号',
-    '毛重(公斤)', '皮重(公斤)', '净重(公斤)', '水分%', '杂质%', '生霉粒%',
-    '场地扣量', '水分扣量', '杂质扣量', '生霉扣量', '扣量总重', '计价净重(公斤)',
-    '单价(元/公斤)', '市斤价', '粮食价款', '卸车费', '结算价款', '实付大写',
-    '入库仓号', '卸车货位', '银行卡号', '开户行', '联系电话',
-    '化验员', '检斤员', '管理员', '监管员', '付款员', '备注',
+    '编号', '日期', '状态', '农户姓名', '身份证号', '地址', '产品名称', '产品等级',
+    '水分%', '杂质霉变%', '毛重(公斤)', '皮重(公斤)', '综合扣量(公斤)', '净重(公斤)',
+    '单价(元/公斤)', '市斤价', '金额', '金额大写',
+    '卸车货位', '银行账号', '联系电话', '化验员', '监管员', '进出时间',
 ]
 
 # 1-based 列号 -> 数字格式
 DETAIL_FORMATS = {
-    10: '#,##0.000', 11: '#,##0.000', 12: '#,##0.000',
-    13: '0.00', 14: '0.00', 15: '0.00',
-    16: '#,##0.000', 17: '#,##0.000', 18: '#,##0.000', 19: '#,##0.000',
-    20: '#,##0.000', 21: '#,##0.000',
-    22: '0.0000', 23: '0.0000',
-    24: '#,##0.00', 25: '#,##0.00', 26: '#,##0.00',
+    9: '0.00', 10: '0.00',
+    11: '#,##0.000', 12: '#,##0.000', 13: '#,##0.000', 14: '#,##0.000',
+    15: '0.0000', 16: '0.0000',
+    17: '#,##0.00',
 }
 
 DETAIL_WIDTHS = {
-    1: 14, 2: 11, 3: 9, 4: 10, 5: 20, 6: 30, 7: 8, 8: 6, 9: 10,
-    10: 12, 11: 12, 12: 12, 13: 8, 14: 8, 15: 9,
-    16: 10, 17: 10, 18: 10, 19: 10, 20: 10, 21: 13,
-    22: 13, 23: 10, 24: 12, 25: 10, 26: 12, 27: 26,
-    28: 10, 29: 10, 30: 20, 31: 14, 32: 13,
-    33: 8, 34: 8, 35: 8, 36: 8, 37: 8, 38: 16,
+    1: 14, 2: 11, 3: 9, 4: 10, 5: 20, 6: 30, 7: 10, 8: 9,
+    9: 8, 10: 11, 11: 12, 12: 12, 13: 14, 14: 12,
+    15: 13, 16: 10, 17: 12, 18: 26,
+    19: 10, 20: 20, 21: 13, 22: 8, 23: 8, 24: 16,
 }
 
-# 合计行需要求和的列（毛重/皮重/净重/各项扣量/扣量总重/计价净重/价款）
-SUM_COLUMNS = [10, 11, 12, 16, 17, 18, 19, 20, 21, 24, 25, 26]
+# 合计行需要求和的列（毛重/皮重/综合扣量/净重/金额）
+SUM_COLUMNS = [11, 12, 13, 14, 17]
 
 DETAIL_FIELDS = {
-    10: 'gross',
-    11: 'tare',
-    12: 'net_weight',
-    16: 'deduct_site',
-    17: 'deduct_moisture',
-    18: 'deduct_impurity',
-    19: 'deduct_moldy',
-    20: 'deduct_total',
-    21: 'priced_weight',
-    24: 'grain_amount',
-    25: 'unload_fee',
-    26: 'total_amount',
+    11: 'gross',
+    12: 'tare',
+    13: 'deduct_total',
+    14: 'net_weight',
+    17: 'grain_amount',
 }
 
 HEADER_FILL = PatternFill('solid', fgColor='1E6F43')
 HEADER_FONT = Font(color='FFFFFF', bold=True)
 TOTAL_FONT = Font(bold=True)
+
+
+def _in_out_text(record: PurchaseRecord) -> str:
+    if not record.weigh_in_at:
+        return ''
+    return f'{record.weigh_in_at}{" / " + record.weigh_out_at if record.weigh_out_at else ""}'
 
 
 def _detail_row(record: PurchaseRecord, farmer: Farmer | None) -> list:
@@ -71,49 +64,35 @@ def _detail_row(record: PurchaseRecord, farmer: Farmer | None) -> list:
         farmer.address if farmer else '',
         record.product,
         record.grade,
-        record.vehicle_no,
-        record.gross,
-        record.tare,
-        record.net_weight,
         record.moisture,
         record.impurity,
-        record.moldy,
-        record.deduct_site,
-        record.deduct_moisture,
-        record.deduct_impurity,
-        record.deduct_moldy,
+        record.gross,
+        record.tare,
         record.deduct_total,
-        record.priced_weight,
+        record.net_weight,
         record.price_per_kg,
         record.price_per_jin,
         record.grain_amount,
-        record.unload_fee,
-        record.total_amount,
         record.amount_cn,
-        record.warehouse,
         record.unload_spot,
         record.bank_card,
-        record.bank_name,
         record.phone,
         record.checker,
-        record.weigher,
-        record.manager,
         record.supervisor,
-        record.payer,
-        record.note,
+        _in_out_text(record),
     ]
 
 
 def _summarize(records: list[PurchaseRecord]) -> dict:
     """非作废口径的合计。"""
     active = [record for record in records if record.status != 'void']
-    weight = sum(record.priced_weight for record in active)
+    weight = sum(record.net_weight for record in active)
     return {
         'count': len(active),
         'gross': sum(record.gross for record in active),
-        'net': sum(record.net_weight for record in active),
+        'net': weight,
         'tons': weight / 1000,
-        'amount': sum(record.total_amount for record in active),
+        'amount': sum(record.grain_amount for record in active),
     }
 
 
@@ -191,8 +170,8 @@ def build_workbook(pairs: list[tuple[PurchaseRecord, Farmer | None]]) -> bytes:
         ('车次（不含作废）', overview['count']),
         ('毛重合计（公斤）', round(overview['gross'], 3)),
         ('净重合计（公斤）', round(overview['net'], 3)),
-        ('计价净重合计（吨）', round(overview['tons'], 3)),
-        ('结算金额合计（元）', round(overview['amount'], 2)),
+        ('净重合计（吨）', round(overview['tons'], 3)),
+        ('金额合计（元）', round(overview['amount'], 2)),
     ]:
         row += 1
         summary.cell(row=row, column=1, value=label)
@@ -209,7 +188,7 @@ def build_workbook(pairs: list[tuple[PurchaseRecord, Farmer | None]]) -> bytes:
     def write_group(sheet_row: int, heading: str, groups: dict, label_header: str) -> int:
         summary.cell(row=sheet_row, column=1, value=heading).font = bold
         sheet_row += 1
-        for col, header in enumerate([label_header, '车数', '计价净重(吨)', '结算金额(元)'], start=1):
+        for col, header in enumerate([label_header, '车数', '净重(吨)', '金额(元)'], start=1):
             summary.cell(row=sheet_row, column=col, value=header).font = bold
         for name in sorted(groups):
             stats = _summarize(groups[name])

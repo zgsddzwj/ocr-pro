@@ -132,7 +132,7 @@
     <view class="computed">
       <view class="c-item">
         <view class="c-label">净重</view>
-        <view class="c-value brand">{{computed.pricedWeightText}}</view>
+        <view class="c-value brand">{{computed.netWeightText}}</view>
       </view>
       <view class="c-item">
         <view class="c-label">市斤价</view>

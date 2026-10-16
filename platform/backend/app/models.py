@@ -35,50 +35,33 @@ class PurchaseRecord(SQLModel, table=True):
     farmer_id: str = Field(index=True, foreign_key="farmers.id")
 
     date: str  # YYYY-MM-DD
-    product: str = Field(default="")
-    vehicle_no: str = Field(default="")
-    grade: str = Field(default="")
+    product: str = Field(default="")  # 产品名称
+    grade: str = Field(default="")  # 产品等级
 
-    # 粮情（% 与公斤，均由录入提供）
-    moisture: float = Field(default=0.0)
-    impurity: float = Field(default=0.0)
-    moldy: float = Field(default=0.0)
-    gross: float = Field(default=0.0)
-    tare: float = Field(default=0.0)
-
-    # 扣量（公斤，手填）
-    deduct_site: float = Field(default=0.0)
-    deduct_moisture: float = Field(default=0.0)
-    deduct_impurity: float = Field(default=0.0)
-    deduct_moldy: float = Field(default=0.0)
+    # 粮情检斤（% 与公斤，均由录入提供）
+    moisture: float = Field(default=0.0)  # 水分%
+    impurity: float = Field(default=0.0)  # 杂质霉变%
+    gross: float = Field(default=0.0)  # 毛重
+    tare: float = Field(default=0.0)  # 皮重
+    deduct_total: float = Field(default=0.0)  # 综合扣量（手填）
 
     # 结算
-    price_per_kg: float = Field(default=0.0)
-    unload_fee: float = Field(default=0.0)
+    price_per_kg: float = Field(default=0.0)  # 单价
 
     # 其他信息
-    unload_spot: str = Field(default="")
-    warehouse: str = Field(default="")
-    bank_name: str = Field(default="")
-    bank_card: str = Field(default="")
-    phone: str = Field(default="")
-    weigh_in_at: str = Field(default="")
-    weigh_out_at: str = Field(default="")
-    checker: str = Field(default="")
-    weigher: str = Field(default="")
-    manager: str = Field(default="")
-    supervisor: str = Field(default="")
-    payer: str = Field(default="")
-    note: str = Field(default="")
+    unload_spot: str = Field(default="")  # 卸车货位
+    bank_card: str = Field(default="")  # 银行账号
+    phone: str = Field(default="")  # 联系电话
+    weigh_in_at: str = Field(default="")  # 毛检时间
+    weigh_out_at: str = Field(default="")  # 皮检时间
+    checker: str = Field(default="")  # 化验员
+    supervisor: str = Field(default="")  # 监管员
 
     # 派生字段（服务端计算后落库）
-    net_weight: float = Field(default=0.0)
-    deduct_total: float = Field(default=0.0)
-    priced_weight: float = Field(default=0.0)
-    price_per_jin: float = Field(default=0.0)
-    grain_amount: float = Field(default=0.0)
-    total_amount: float = Field(default=0.0)
-    amount_cn: str = Field(default="")
+    net_weight: float = Field(default=0.0)  # 净重 = 毛重 − 皮重 − 综合扣量
+    price_per_jin: float = Field(default=0.0)  # 市斤价 = 单价 ÷ 2
+    grain_amount: float = Field(default=0.0)  # 金额 = 净重 × 单价
+    amount_cn: str = Field(default="")  # 金额大写
 
     status: str = Field(default="draft", index=True)  # draft/confirmed/void
     created_by: str = Field(default="")
