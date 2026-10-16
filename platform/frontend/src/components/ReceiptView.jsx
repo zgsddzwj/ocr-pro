@@ -8,7 +8,9 @@ const TDB = 'px-1 py-1 text-center';
 
 /**
  * 桌面/打印/PDF 共用的表格版版式：严格照纸质样单。
- * 24 栏网格；卖方与粮情两块均为「字段名一行、内容一行」；底部为 标签格 + 内容格。
+ * 共用 14 栏基础网格，各行的跨格都是它的整数分割，因此竖线贯穿所有行：
+ *   顶部信息行 3|2|2|2|2|3 ／ 卖方 1|1|5|4|3 ／ 粮情 1|1|1|1|1|2|1|1|2|3 ／ 底部 1|2|1|5|2|3
+ * 卖方与粮情两块均为「字段名一行、内容一行」。
  */
 function ReceiptSheet({ record }) {
   const inOutText = record.weighInAt
@@ -33,18 +35,19 @@ function ReceiptSheet({ record }) {
 
       <table className="mt-1 w-full table-fixed border-collapse">
         <tbody>
+          {/* 顶部信息行（无边框）：3 | 2 | 2 | 2 | 2 | 3 */}
           <tr>
-            <th className={THB} colSpan={6}>
+            <th className={THB} colSpan={3}>
               单位：公斤；元
             </th>
-            <td className={TDB} colSpan={6} />
+            <td className={TDB} colSpan={2} />
             <th className={THB} colSpan={2}>
               日期：
             </th>
-            <td className={TDB} colSpan={4}>
+            <td className={TDB} colSpan={2}>
               {record.date}
             </td>
-            <th className={THB} colSpan={3}>
+            <th className={THB} colSpan={2}>
               检质证号：
             </th>
             <td className={TDB} colSpan={3}>
@@ -52,140 +55,100 @@ function ReceiptSheet({ record }) {
             </td>
           </tr>
 
+          {/* 卖方：1 | 1 | 5 | 4 | 3 */}
           <tr>
-            <th className={TH} colSpan={2}>
-              产品名称
-            </th>
-            <th className={TH} colSpan={2}>
-              农户姓名
-            </th>
-            <th className={TH} colSpan={7}>
+            <th className={TH}>产品名称</th>
+            <th className={TH}>农户姓名</th>
+            <th className={TH} colSpan={5}>
               身份证号
             </th>
-            <th className={TH} colSpan={5}>
+            <th className={TH} colSpan={4}>
               地址
             </th>
-            <th className={TH} colSpan={8}>
+            <th className={TH} colSpan={3}>
               联系电话
             </th>
           </tr>
           <tr>
-            <td className={TD} colSpan={2}>
-              {record.product}
-            </td>
-            <td className={`${TD} font-semibold`} colSpan={2}>
-              {record.farmerName}
-            </td>
-            <td className={`${TD} whitespace-nowrap font-mono text-xs`} colSpan={7}>
+            <td className={TD}>{record.product}</td>
+            <td className={`${TD} font-semibold`}>{record.farmerName}</td>
+            <td className={`${TD} whitespace-nowrap font-mono text-xs`} colSpan={5}>
               {record.farmerIdNumber}
             </td>
-            <td className={`${TD} break-all text-left`} colSpan={5}>
+            <td className={`${TD} break-all text-left`} colSpan={4}>
               {record.farmerAddress}
             </td>
-            <td className={TD} colSpan={8}>
+            <td className={TD} colSpan={3}>
               {record.phone}
             </td>
           </tr>
 
+          {/* 粮情：1 | 1 | 1 | 1 | 1 | 2 | 1 | 1 | 2 | 3 */}
           <tr>
+            <th className={TH}>产品等级</th>
+            <th className={TH}>水分</th>
+            <th className={TH}>杂质霉变</th>
+            <th className={TH}>毛重</th>
+            <th className={TH}>皮重</th>
             <th className={TH} colSpan={2}>
-              产品等级
-            </th>
-            <th className={TH} colSpan={2}>
-              水分
-            </th>
-            <th className={TH} colSpan={2}>
-              杂质霉变
-            </th>
-            <th className={TH} colSpan={2}>
-              毛重
-            </th>
-            <th className={TH} colSpan={2}>
-              皮重
-            </th>
-            <th className={TH} colSpan={3}>
               综合扣量
             </th>
-            <th className={TH} colSpan={2}>
-              净重
-            </th>
-            <th className={TH} colSpan={2}>
-              单价
-            </th>
+            <th className={TH}>净重</th>
+            <th className={TH}>单价</th>
             <th className={TH} colSpan={2}>
               市斤价
             </th>
-            <th className={TH} colSpan={5}>
+            <th className={TH} colSpan={3}>
               金额
             </th>
           </tr>
           <tr>
+            <td className={TD}>{record.grade}</td>
+            <td className={TD}>{record.moisture}</td>
+            <td className={TD}>{record.impurity}</td>
+            <td className={TD}>{fmtWeight(record.gross)}</td>
+            <td className={TD}>{fmtWeight(record.tare)}</td>
             <td className={TD} colSpan={2}>
-              {record.grade}
-            </td>
-            <td className={TD} colSpan={2}>
-              {record.moisture}
-            </td>
-            <td className={TD} colSpan={2}>
-              {record.impurity}
-            </td>
-            <td className={TD} colSpan={2}>
-              {fmtWeight(record.gross)}
-            </td>
-            <td className={TD} colSpan={2}>
-              {fmtWeight(record.tare)}
-            </td>
-            <td className={TD} colSpan={3}>
               {fmtWeight(record.deductTotal)}
             </td>
-            <td className={`${TD} font-semibold`} colSpan={2}>
-              {fmtWeight(record.netWeight)}
-            </td>
-            <td className={TD} colSpan={2}>
-              {fmtPrice(record.pricePerKg)}
-            </td>
+            <td className={`${TD} font-semibold`}>{fmtWeight(record.netWeight)}</td>
+            <td className={TD}>{fmtPrice(record.pricePerKg)}</td>
             <td className={TD} colSpan={2}>
               {fmtPrice(record.pricePerJin)}
             </td>
-            <td className={`${TD} font-bold`} colSpan={5}>
+            <td className={`${TD} font-bold`} colSpan={3}>
               {fmtAmount(record.grainAmount)}
             </td>
           </tr>
 
+          {/* 底部单据行：1 | 2 | 1 | 5 | 2 | 3 */}
           <tr>
-            <th className={TH} colSpan={2}>
-              卸车货位
-            </th>
-            <td className={TD} colSpan={6}>
+            <th className={TH}>卸车货位</th>
+            <td className={TD} colSpan={2}>
               {record.unloadSpot}
             </td>
-            <th className={TH} colSpan={3}>
-              金额大写
-            </th>
-            <td className={`${TD} text-left font-semibold`} colSpan={7}>
+            <th className={TH}>金额大写</th>
+            <td className={`${TD} text-left font-semibold`} colSpan={5}>
               {record.amountCn || ''}
             </td>
-            <th className={TH} colSpan={3}>
+            <th className={TH} colSpan={2}>
               银行账号
             </th>
             <td className={`${TD} font-mono text-xs`} colSpan={3}>
               {record.bankCard}
             </td>
           </tr>
+          {/* 签字行（无边框）：1 | 2 | 1 | 5 | 2 | 3 */}
           <tr>
-            <th className={`${THB} text-left`} colSpan={3}>
-              化验员：
-            </th>
-            <td className={`${TDB} text-left text-xs`} colSpan={6}>
+            <th className={`${THB} text-left text-[11px]`}>化验员：</th>
+            <td className={`${TDB} text-left text-xs`} colSpan={2}>
               {record.checker || ''}
             </td>
-            <th className={`${THB} text-left`} colSpan={3}>
-              监管员：
-            </th>
-            <td className={`${TDB} text-left text-xs`} colSpan={6}>
+            <th className={`${THB} text-left text-[11px]`}>监管员：</th>
+            <td className={`${TDB} text-left text-xs`} colSpan={5}>
               {record.supervisor || ''}
             </td>
-            <th className={`${THB} text-left`} colSpan={3}>
+            <th className={`${THB} text-left text-[11px]`} colSpan={2}>
               进出时间：
             </th>
             <td className={`${TDB} text-left text-xs`} colSpan={3}>
