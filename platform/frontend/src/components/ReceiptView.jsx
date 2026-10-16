@@ -43,13 +43,13 @@ function ReceiptSheet({ record }) {
               单位：公斤；元
             </th>
             <td className={TDB} colSpan={2} />
-            <th className={THB} colSpan={2}>
+            <th className={`${THB} text-right`} colSpan={2}>
               日期：
             </th>
             <td className={TDB} colSpan={2}>
               {record.date}
             </td>
-            <th className={THB} colSpan={2}>
+            <th className={`${THB} text-right`} colSpan={2}>
               检质证号：
             </th>
             <td className={TDB} colSpan={3}>
