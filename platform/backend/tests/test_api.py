@@ -126,7 +126,7 @@ def test_farmer_submit_idempotent_and_records_flow(client):
     created = client.post("/api/records", json=record)
     assert created.status_code == 200
     record_body = created.json()
-    assert record_body["receiptNo"] == date.today().strftime("%Y%m%d") + "001"
+    assert record_body["receiptNo"] == date.today().strftime("%Y%m%d") + "000001"
     assert record_body["pricePerKg"] == 2.36
     assert record_body["netWeight"] == 2930
     assert record_body["deductTotal"] == 130

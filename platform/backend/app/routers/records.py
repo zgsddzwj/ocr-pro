@@ -41,7 +41,7 @@ def _clean(value: str | None) -> str:
 
 
 def _next_receipt_no(session: Session, record_date: str) -> str:
-    """编号规则：YYYYMMDD + 3 位当日流水（如 20261001047）。"""
+    """编号规则：YYYYMMDD + 6 位当日流水（如 20261016000002）。"""
     prefix = record_date.replace("-", "")
     taken = set(
         session.exec(
@@ -49,9 +49,9 @@ def _next_receipt_no(session: Session, record_date: str) -> str:
         ).all()
     )
     seq = 1
-    while f"{prefix}{seq:03d}" in taken:
+    while f"{prefix}{seq:06d}" in taken:
         seq += 1
-    return f"{prefix}{seq:03d}"
+    return f"{prefix}{seq:06d}"
 
 
 def _record_inputs(record: PurchaseRecord) -> dict:
