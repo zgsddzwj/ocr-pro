@@ -2,7 +2,7 @@
 module.exports = {
   // 识别服务地址：云端服务器 nginx 网关的子路径（Docker 容器只绑服务器本机回环，地址固定不变）
   // 部署说明见 README「云端部署」；如换服务器或路径，改这里并重新上传小程序
-  serverBase: 'http://82.157.59.122/shouliang',
+  serverBase: 'http://82.157.59.122/grain',
 
   // 单据抬头（公司/单位名称），留空则只显示副标题
   companyTitle: '',
