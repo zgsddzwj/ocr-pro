@@ -1,0 +1,11 @@
+.git
+.zcode
+**/__pycache__
+**/.pytest_cache
+platform/frontend/node_modules
+platform/backend/.venv
+platform/backend/data
+tools/*.exe
+miniprogram
+miniprogram/project.private.config.json
+README.md

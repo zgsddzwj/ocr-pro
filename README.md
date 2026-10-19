@@ -127,6 +127,18 @@ node tools/check-miniprogram.js        # 小程序静态检查
 | 忘记管理密码 | 删除 `platform/backend/data/app.db` 会清空全部数据；或联系开发者重置 |
 | 识别个别字段不准 | 云端识别可手动修改；反光/倾斜重拍通常更好 |
 
+## 云端部署（Docker，当前生产方式）
+
+代码放服务器 `~/apps/ocr-pro/`（与同机其他项目按目录与容器隔离），数据在 `platform/backend/data/`（SQLite + secret.key，卷挂载持久化），百炼 Key 在 `platform/backend/.env`（只读挂载进容器）。
+
+```bash
+cd ~/apps/ocr-pro
+docker compose up -d --build   # 多阶段构建：node 构建前端 → python:3.12-slim 跑后端，端口 8010
+docker compose logs -f         # 看日志
+```
+
+更新版本：把最新代码同步到该目录（git clone 或打包上传），再跑一次 `docker compose up -d --build`，数据不受影响。小程序默认地址见 `miniprogram/config.js`（`http://82.157.59.122:8010`，固定不变）。
+
 ## 上线清单（对外发布时）
 
 当前为局域网形态（收粮点内自用，最简部署）。若要公网/多人远程使用：
