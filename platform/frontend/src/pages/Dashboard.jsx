@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { api, getToken } from '../lib/api';
+import { api, getToken, API_BASE } from '../lib/api';
 import { fmtAmount, fmtWeight, maskIdNumber } from '../lib/format';
 
 const STATUS = {
@@ -22,7 +22,7 @@ export default function Dashboard() {
     setExporting(true);
     setError('');
     try {
-      const response = await fetch('/api/records/export.xlsx', {
+      const response = await fetch(`${API_BASE}/api/records/export.xlsx`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (!response.ok) {

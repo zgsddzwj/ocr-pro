@@ -1,5 +1,8 @@
 const TOKEN_KEY = 'ocr_pro_token';
 
+// 部署子路径（网关按 /ocr-pro/ 分发时由 vite 注入；本地 dev 为 ''）
+export const API_BASE = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY) || '';
 }
@@ -17,7 +20,7 @@ async function request(path, { method = 'GET', body } = {}) {
 
   let response;
   try {
-    response = await fetch(path, {
+    response = await fetch(`${API_BASE}${path}`, {
       method,
       headers,
       body: body !== undefined ? JSON.stringify(body) : undefined,
@@ -36,7 +39,7 @@ async function request(path, { method = 'GET', body } = {}) {
   if (!response.ok) {
     if (response.status === 401 && getToken()) {
       setToken('');
-      window.location.href = '/login';
+      window.location.href = `${API_BASE}/login`;
     }
     const detail = data && (data.detail || data.error);
     const message =

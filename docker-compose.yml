@@ -4,7 +4,8 @@ services:
     container_name: ocr-pro
     restart: unless-stopped
     ports:
-      - "8010:8010"
+      # 按服务器约定：容器只绑回环地址，由 nginx 网关统一对外分发
+      - "127.0.0.1:8010:8010"
     volumes:
       # 数据库/密钥持久化在宿主机目录；.env（百炼 Key）只读挂载
       - ./platform/backend/data:/app/backend/data
