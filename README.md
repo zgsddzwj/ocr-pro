@@ -92,7 +92,7 @@ cd ../backend
 
 ```ini
 BAILIAN_API_KEY=sk-xxx        # 百炼 API-KEY：https://bailian.console.aliyun.com/?apiKey=1
-BAILIAN_MODEL=qwen-vl-plus    # 可换 qwen3-vl-plus / qwen-vl-max
+BAILIAN_MODEL=qwen3-vl-plus   # qwen-vl-plus 已下线；模型失效时用 GET /compatible-mode/v1/models 查可用列表
 HOST=0.0.0.0
 PORT=8000
 ```
