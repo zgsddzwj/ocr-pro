@@ -137,7 +137,7 @@ docker compose up -d --build   # 多阶段构建：node 构建前端 → python:
 docker compose logs -f         # 看日志
 ```
 
-更新版本：把最新代码同步到该目录（git clone 或打包上传），再跑一次 `docker compose up -d --build`，数据不受影响。小程序默认地址见 `miniprogram/config.js`（`http://82.157.59.122:8010`，固定不变）。
+更新版本：把最新代码同步到该目录（git clone 或打包上传），再跑一次 `docker compose up -d --build`，数据不受影响。小程序默认地址见 `miniprogram/config.js`（`http://82.157.59.122/shouliang`，走 nginx 网关子路径，固定不变）。
 
 ## 上线清单（对外发布时）
 
