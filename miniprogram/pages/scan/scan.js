@@ -30,9 +30,10 @@ Page({
 
   onShow() {
     const stored = store.getSettings();
-    // 一次性迁移：旧版本默认地址是局域网 IP（http://192.168.x.x），会随路由器漂移导致连不上。
-    // 统一清掉，回落到 config.js 里的公网隧道默认地址；手动填过 https 自定义地址的不受影响。
-    if (stored.serverBase && stored.serverBase.startsWith('http://')) {
+    // 一次性迁移：清掉历史遗留的失效地址（旧版局域网 IP、trycloudflare/ngrok 隧道），
+    // 回落到 config.js 里的云端服务器默认地址；手动填过的其他自定义地址不受影响。
+    const staleTunnel = /trycloudflare\.com|ngrok-free\.(dev|app)/.test(stored.serverBase || '');
+    if (stored.serverBase && (stored.serverBase.startsWith('http://') || staleTunnel)) {
       store.saveSettings({ serverBase: '' });
       stored.serverBase = '';
     }
